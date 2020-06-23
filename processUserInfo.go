@@ -1,12 +1,9 @@
 package main
 
-import (
-	"time"
-)
-
 type Project struct {
 	ProjectName   string
 	ProjectStatus string
+	ProjectMark   int
 }
 
 type UserInfoParsed struct {
@@ -15,7 +12,6 @@ type UserInfoParsed struct {
 	Location        string
 	CorrectionPoint int
 	Wallet          int
-	BlackHole       int
 	Level           float64
 	Projects        map[string]Project
 }
@@ -36,20 +32,16 @@ func processUserInfo(userData UserInfo) (UserInfoParsed, error) {
 	}
 
 	for _, cursus := range userData.CursusUsers {
-		if cursus.CursusID == 21 {
-			userDataParsed.BlackHole = int(cursus.BlackHoledAt.Sub(time.Now()).Hours() / 24)
-			userDataParsed.Level = cursus.Level
-		}
+		userDataParsed.Level = cursus.Level
 	}
 
 	userDataParsed.Projects = make(map[string]Project)
 
 	for _, projectRaw := range userData.ProjectsUsers {
-		if projectRaw.CursusIds[0] != 9 {
-			project.ProjectName = projectRaw.Project.Name
-			project.ProjectStatus = projectRaw.Status
-			userDataParsed.Projects[projectRaw.Project.Name] = project
-		}
+		project.ProjectName = projectRaw.Project.Name
+		project.ProjectStatus = projectRaw.Status
+		project.ProjectMark = int(*projectRaw.FinalMark)
+		userDataParsed.Projects[projectRaw.Project.Name] = project
 	}
 
 	return userDataParsed, nil

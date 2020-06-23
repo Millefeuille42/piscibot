@@ -31,14 +31,12 @@ func sendUser(session *discordgo.Session, message *discordgo.MessageCreate, user
 	userMessage := fmt.Sprintf("<@%s>\n"+
 		"```"+
 		"\n\tEmail:                 %s"+
-		"\n\tBlackhole dans:        %d jours"+
 		"\n\tCorrection Points:     %d"+
 		"\n\tWallet:                %d"+
 		"\n\tNiveau:                %.2f"+
 		"```",
 		message.Author.ID,
 		userDataParsed.Email,
-		userDataParsed.BlackHole,
 		userDataParsed.CorrectionPoint,
 		userDataParsed.Wallet,
 		userDataParsed.Level,

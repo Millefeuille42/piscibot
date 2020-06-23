@@ -31,11 +31,11 @@ type UserInfo struct {
 	CorrectionPoint int    `json:"correction_point"`
 	Wallet          int    `json:"wallet"`
 	CursusUsers     []struct {
-		CursusID     int       `json:"cursus_id"`
-		Level        float64   `json:"level"`
-		BlackHoledAt time.Time `json:"blackholed_at"`
+		CursusID int     `json:"cursus_id"`
+		Level    float64 `json:"level"`
 	} `json:"cursus_users"`
 	ProjectsUsers []struct {
+		FinalMark *int64 `json:"final_mark"`
 		Status    string `json:"status"`
 		CursusIds []int  `json:"cursus_ids"`
 		Project   struct {

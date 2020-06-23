@@ -63,8 +63,6 @@ func apiUsers(w http.ResponseWriter, r *http.Request) {
 			err = dataEncoder.Encode(userData.Login)
 		case "Level":
 			err = dataEncoder.Encode(userData.Level)
-		case "BlackHole":
-			err = dataEncoder.Encode(userData.BlackHole)
 		case "Wallet":
 			err = dataEncoder.Encode(userData.Wallet)
 		case "CorrectionPoint":

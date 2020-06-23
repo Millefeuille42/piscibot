@@ -17,14 +17,12 @@ type User struct {
 	Location        string
 	CorrectionPoint int
 	Wallet          int
-	BlackHole       int
 	Level           float64
 }
 
 type OverTimeData struct {
 	gorm.Model
 	Login           string
-	BlackHole       int
 	CorrectionPoint int
 	Level           float64
 }
@@ -34,6 +32,7 @@ type ProjectData struct {
 	ProjectName   string
 	ProjectStatus string
 	ProjectUser   string
+	ProjectMark   int
 }
 
 func compareData(fileData []byte, newUserData UserInfoParsed, session *discordgo.Session) error {
@@ -145,7 +144,6 @@ func staticDataToDB(user string) {
 	queryUser.Location = userData.Location
 	queryUser.CorrectionPoint = userData.CorrectionPoint
 	queryUser.Wallet = userData.Wallet
-	queryUser.BlackHole = userData.BlackHole
 	queryUser.Level = userData.Level
 
 	if exists == "" {
@@ -179,7 +177,6 @@ func userDataToDB(user string) {
 	queryUser.Location = userData.Location
 	queryUser.CorrectionPoint = userData.CorrectionPoint
 	queryUser.Wallet = userData.Wallet
-	queryUser.BlackHole = userData.BlackHole
 	queryUser.Level = userData.Level
 
 	db, err := gorm.Open("postgres", fmt.Sprintf("connect_timeout=10 host=%s user=%s dbname=segbot password=%s sslmode=disable",
@@ -191,7 +188,6 @@ func userDataToDB(user string) {
 	db.AutoMigrate(&OverTimeData{})
 	db.Create(&OverTimeData{
 		Login:           queryUser.Login,
-		BlackHole:       queryUser.BlackHole,
 		CorrectionPoint: queryUser.CorrectionPoint,
 		Level:           queryUser.Level,
 	})
@@ -206,6 +202,7 @@ func userDataToDB(user string) {
 		queryProject.ProjectName = pr.ProjectName
 		queryProject.ProjectStatus = pr.ProjectStatus
 		queryProject.ProjectUser = user
+		queryProject.ProjectMark = pr.ProjectMark
 
 		if exists == "" {
 			db.Create(&queryProject)
