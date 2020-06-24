@@ -33,7 +33,7 @@ RUN echo "listen_addresses='*'" >> /etc/postgresql/11/main/postgresql.conf
 USER root
 WORKDIR home/d42b/
 RUN apt install -y golang git
-RUN git clone https://github.com/Millefeuille42/discord42bot /home/d42b
+RUN git clone https://github.com/Millefeuille42/piscibot /home/d42b
 RUN go build -o d42b .
 
 ADD srcs/botenvs.env /home/d42b/dev.env
