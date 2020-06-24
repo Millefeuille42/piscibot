@@ -32,13 +32,11 @@ func sendUser(session *discordgo.Session, message *discordgo.MessageCreate, user
 		"```"+
 		"\n\tEmail:                 %s"+
 		"\n\tCorrection Points:     %d"+
-		"\n\tWallet:                %d"+
 		"\n\tNiveau:                %.2f"+
 		"```",
 		message.Author.ID,
 		userDataParsed.Email,
 		userDataParsed.CorrectionPoint,
-		userDataParsed.Wallet,
 		userDataParsed.Level,
 	)
 
