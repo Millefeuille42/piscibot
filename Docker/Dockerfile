@@ -34,6 +34,7 @@ USER root
 WORKDIR home/d42b/
 RUN apt install -y golang git
 RUN git clone https://github.com/Millefeuille42/piscibot /home/d42b
+RUN git pull
 RUN go build -o d42b .
 
 ADD srcs/botenvs.env /home/d42b/dev.env

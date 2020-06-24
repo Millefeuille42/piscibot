@@ -1,3 +1,3 @@
 #{userName} est maintenant connecté(e) en #{newLocation}. Bravo tu ne fais plus partie du clan des branleurs !
 #{userName} nous a rejoint en #{newLocation}!
-#{userName} Ready for combat
+#{userName} Ready for combat at #{newLocation}

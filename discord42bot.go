@@ -45,10 +45,9 @@ func writeUsers(api Api42, session *discordgo.Session) Api42 {
 func main() {
 	api := Api42{}
 
-	fmt.Println("Started init")
-
 	err := godotenv.Load("dev.env")
 	checkError(err)
+	fmt.Println("Started init")
 
 	err = api.Token.getToken()
 	checkError(err)
@@ -66,6 +65,8 @@ func main() {
 	fmt.Println("Discord Bot up and running")
 
 	setupCloseHandler(discordBot)
+
+	time.Sleep(1 * time.Minute)
 
 	go func() {
 		var userList = os.Args
