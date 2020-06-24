@@ -16,7 +16,6 @@ type User struct {
 	Email           string
 	Location        string
 	CorrectionPoint int
-	Wallet          int
 	Level           float64
 }
 
@@ -143,7 +142,6 @@ func staticDataToDB(user string) {
 	queryUser.Email = userData.Email
 	queryUser.Location = userData.Location
 	queryUser.CorrectionPoint = userData.CorrectionPoint
-	queryUser.Wallet = userData.Wallet
 	queryUser.Level = userData.Level
 
 	if exists == "" {
@@ -176,7 +174,6 @@ func userDataToDB(user string) {
 	queryUser.Email = userData.Email
 	queryUser.Location = userData.Location
 	queryUser.CorrectionPoint = userData.CorrectionPoint
-	queryUser.Wallet = userData.Wallet
 	queryUser.Level = userData.Level
 
 	db, err := gorm.Open("postgres", fmt.Sprintf("connect_timeout=10 host=%s user=%s dbname=segbot password=%s sslmode=disable",

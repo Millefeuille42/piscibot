@@ -65,9 +65,6 @@ func main() {
 	checkError(err)
 	fmt.Println("Discord Bot up and running")
 
-	startApi()
-	fmt.Println("API Started")
-
 	setupCloseHandler(discordBot)
 
 	go func() {

@@ -29,13 +29,12 @@ type UserInfo struct {
 	Name            string `json:"displayname"`
 	Location        string `json:"location"`
 	CorrectionPoint int    `json:"correction_point"`
-	Wallet          int    `json:"wallet"`
 	CursusUsers     []struct {
 		CursusID int     `json:"cursus_id"`
 		Level    float64 `json:"level"`
 	} `json:"cursus_users"`
 	ProjectsUsers []struct {
-		FinalMark *int64 `json:"final_mark"`
+		FinalMark interface{}	 `json:"final_mark"`
 		Status    string `json:"status"`
 		CursusIds []int  `json:"cursus_ids"`
 		Project   struct {

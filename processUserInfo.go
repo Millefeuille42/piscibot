@@ -11,7 +11,6 @@ type UserInfoParsed struct {
 	Email           string
 	Location        string
 	CorrectionPoint int
-	Wallet          int
 	Level           float64
 	Projects        map[string]Project
 }
@@ -23,7 +22,6 @@ func processUserInfo(userData UserInfo) (UserInfoParsed, error) {
 
 	userDataParsed.Login = userData.Login
 	userDataParsed.Email = userData.Email
-	userDataParsed.Wallet = userData.Wallet
 	userDataParsed.CorrectionPoint = userData.CorrectionPoint
 
 	userDataParsed.Location = userData.Location
@@ -40,7 +38,10 @@ func processUserInfo(userData UserInfo) (UserInfoParsed, error) {
 	for _, projectRaw := range userData.ProjectsUsers {
 		project.ProjectName = projectRaw.Project.Name
 		project.ProjectStatus = projectRaw.Status
-		project.ProjectMark = int(*projectRaw.FinalMark)
+		if projectRaw.FinalMark == nil {
+			projectRaw.FinalMark = 0
+		}
+		project.ProjectMark = (projectRaw.FinalMark).(int)
 		userDataParsed.Projects[projectRaw.Project.Name] = project
 	}
 
