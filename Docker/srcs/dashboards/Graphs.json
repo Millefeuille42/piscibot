@@ -15,8 +15,7 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "id": 2,
-  "iteration": 1590857704446,
+  "iteration": 1593025696538,
   "links": [],
   "panels": [
     {
@@ -25,6 +24,12 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "fill": 0,
       "fillGradient": 0,
       "gridPos": {
@@ -134,6 +139,23 @@
     {
       "cacheTimeout": null,
       "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {},
+          "displayName": "",
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
       "gridPos": {
         "h": 6,
         "w": 9,
@@ -144,31 +166,17 @@
       "links": [],
       "options": {
         "colorMode": "value",
-        "fieldOptions": {
+        "graphMode": "area",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "reduceOptions": {
           "calcs": [
             "delta"
           ],
-          "defaults": {
-            "mappings": [],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "green",
-                  "value": null
-                }
-              ]
-            },
-            "title": ""
-          },
-          "overrides": [],
           "values": false
-        },
-        "graphMode": "area",
-        "justifyMode": "center",
-        "orientation": "auto"
+        }
       },
-      "pluginVersion": "6.6.1",
+      "pluginVersion": "7.0.1",
       "targets": [
         {
           "format": "time_series",
@@ -205,8 +213,8 @@
       "type": "stat"
     }
   ],
-  "refresh": "1min",
-  "schemaVersion": 22,
+  "refresh": "5s",
+  "schemaVersion": 25,
   "style": "dark",
   "tags": [],
   "templating": {
@@ -214,7 +222,7 @@
       {
         "allValue": null,
         "current": {
-          "selected": true,
+          "selected": false,
           "text": "correction_point",
           "value": "correction_point"
         },
@@ -226,11 +234,6 @@
         "options": [
           {
             "selected": true,
-            "text": "black_hole",
-            "value": "black_hole"
-          },
-          {
-            "selected": false,
             "text": "correction_point",
             "value": "correction_point"
           },
@@ -240,7 +243,8 @@
             "value": "level"
           }
         ],
-        "query": "black_hole, correction_point, level",
+        "query": "correction_point, level",
+        "queryValue": "",
         "skipUrlSync": false,
         "type": "custom"
       }
@@ -253,12 +257,11 @@
   "timepicker": {
     "hidden": false,
     "refresh_intervals": [
-      "5s",
       "1min"
     ]
   },
   "timezone": "",
   "title": "42SegBot - Graphs",
   "uid": "oLng0Azgz",
-  "version": 11
+  "version": 1
 }

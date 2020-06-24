@@ -17,3 +17,11 @@ providers:
    updateIntervalSeconds: 60
    options:
      path: /home/dashboards/Home42.json
+ - name: '42Segbot - Personal'
+   folder: 'Piscine'
+   folderUid: ''
+   type: file
+   editable: true
+   updateIntervalSeconds: 60
+   options:
+     path: /home/dashboards/Personal.json
