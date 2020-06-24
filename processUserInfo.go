@@ -41,7 +41,16 @@ func processUserInfo(userData UserInfo) (UserInfoParsed, error) {
 		if projectRaw.FinalMark == nil {
 			projectRaw.FinalMark = 0
 		}
-		project.ProjectMark = (projectRaw.FinalMark).(int)
+
+		switch projectRaw.FinalMark.(type) {
+		case int:
+			project.ProjectMark = projectRaw.FinalMark.(int)
+		case float64:
+			project.ProjectMark = int(projectRaw.FinalMark.(float64))
+		default:
+			projectRaw.FinalMark = 0
+		}
+
 		userDataParsed.Projects[projectRaw.Project.Name] = project
 	}
 
