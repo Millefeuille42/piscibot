@@ -9,7 +9,7 @@ ENV DBPASSWORD=segbot
 #BotRelated ENVs
 ENV USERS=mlabouri\ tefroiss
 #Ports
-EXPOSE 80
+EXPOSE 3000
 EXPOSE 5432
 
 RUN apt update && apt -y upgrade
