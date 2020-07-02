@@ -8,7 +8,10 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
+	"regexp"
 	"sort"
+	"strconv"
+	"strings"
 )
 
 type levelNamePair struct {
@@ -70,6 +73,8 @@ func roadmap(session *discordgo.Session, message *discordgo.MessageCreate, statu
 	roadMessage := ""
 	userList := os.Args
 	projectList := make(map[string]string)
+	re := regexp.MustCompile("[0-9]+")
+	max := make(map[string]int)
 
 	for _, user := range userList[1:] {
 		userDataParsed := UserInfoParsed{}
@@ -78,12 +83,21 @@ func roadmap(session *discordgo.Session, message *discordgo.MessageCreate, statu
 		err = json.Unmarshal(fileData, &userDataParsed)
 		checkError(err)
 
+		max["Shell"] = 0
+		max["Rush"] = 0
+		max["C"] = 0
+		max["Exam"] = 0
+
 		for _, project := range userDataParsed.Projects {
 			if project.ProjectStatus == status {
-				if _, ok := projectList[project.ProjectName]; !ok {
-					projectList[project.ProjectName] = "\n\t| " + user
-				} else {
-					projectList[project.ProjectName] = fmt.Sprintf("%s\n\t| %s", projectList[project.ProjectName], user)
+				cur, _ := strconv.Atoi(re.FindString(project.ProjectName))
+				if cur > max[project.ProjectName[:strings.IndexByte(project.ProjectName, ':')]] || status == "in_progress" {
+					if _, ok := projectList[project.ProjectName]; !ok {
+						projectList[project.ProjectName] = "\n\t| " + user
+					} else {
+						projectList[project.ProjectName] = fmt.Sprintf("%s\n\t| %s", projectList[project.ProjectName], user)
+					}
+					max[project.ProjectName[:strings.IndexByte(project.ProjectName, ':')]] = cur
 				}
 			}
 		}
