@@ -31,11 +31,13 @@ func sendUser(session *discordgo.Session, message *discordgo.MessageCreate, user
 	userMessage := fmt.Sprintf("<@%s>\n"+
 		"```"+
 		"\n\tEmail:                 %s"+
+		"\n\tLocation:              %s"+
 		"\n\tCorrection Points:     %d"+
 		"\n\tNiveau:                %.2f"+
 		"```",
 		message.Author.ID,
 		userDataParsed.Email,
+		userDataParsed.Location,
 		userDataParsed.CorrectionPoint,
 		userDataParsed.Level,
 	)
