@@ -1,5 +1,7 @@
 package main
 
+import "strings"
+
 type Project struct {
 	ProjectName   string
 	ProjectStatus string
@@ -36,7 +38,7 @@ func processUserInfo(userData UserInfo) (UserInfoParsed, error) {
 	userDataParsed.Projects = make(map[string]Project)
 
 	for _, projectRaw := range userData.ProjectsUsers {
-		project.ProjectName = projectRaw.Project.Name
+		project.ProjectName = strings.Replace(projectRaw.Project.Name, "C Piscine ", "", -1)
 		project.ProjectStatus = projectRaw.Status
 		if projectRaw.FinalMark == nil {
 			projectRaw.FinalMark = 0
