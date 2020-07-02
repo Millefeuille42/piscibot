@@ -66,8 +66,6 @@ func main() {
 
 	setupCloseHandler(discordBot)
 
-	time.Sleep(1 * time.Minute)
-
 	go func() {
 		var userList = os.Args
 		for {

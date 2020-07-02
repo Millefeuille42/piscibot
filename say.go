@@ -91,7 +91,7 @@ func roadmap(session *discordgo.Session, message *discordgo.MessageCreate, statu
 		roadMessage = fmt.Sprintf("%s\n\n%s%10s", roadMessage, projectName, projectUsers)
 	}
 
-	roadMessage = fmt.Sprintf("<@%s>, Roadmap for '%s'```%s```", message.Author.ID, status, roadMessage)
+	roadMessage = fmt.Sprintf("<@%s>, Roadmap for '%s'```%s ```", message.Author.ID, status, roadMessage)
 	_, err := session.ChannelMessageSend(message.ChannelID, roadMessage)
 	checkError(err)
 }
@@ -99,7 +99,7 @@ func roadmap(session *discordgo.Session, message *discordgo.MessageCreate, statu
 func leaderboard(session *discordgo.Session, message *discordgo.MessageCreate) {
 	var leadMessage = ""
 	userList := os.Args
-	userPair := make([]levelNamePair, len(userList)-1)
+	userPair := make([]levelNamePair, 0)
 	userDataParsed := UserInfoParsed{}
 
 	for _, user := range userList[1:] {
@@ -121,4 +121,9 @@ func leaderboard(session *discordgo.Session, message *discordgo.MessageCreate) {
 	leadMessage = fmt.Sprintf("<@%s>```%s```", message.Author.ID, leadMessage)
 	_, err := session.ChannelMessageSend(message.ChannelID, leadMessage)
 	checkError(err)
+}
+
+func sayHelp(session *discordgo.Session, message *discordgo.MessageCreate) {
+	helpMessage := fmt.Sprintf("<@%s>`Read The Fucking Pin`", message.Author.ID)
+	session.ChannelMessageSend(message.ChannelID, helpMessage)
 }

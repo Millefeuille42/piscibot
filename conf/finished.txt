@@ -1,1 +1,1 @@
-#{userName} vient de valider le projet #{project} ! Bravo tu passes maintenant du niveau #{oldLevel} au niveau #{newLevel}. D'autres amateurs ?
+#{userName} vient de valider le projet #{project} avec la note #{mark}! Bravo tu passes maintenant du niveau #{oldLevel} au niveau #{newLevel}. D'autres amateurs ?
