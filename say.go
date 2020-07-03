@@ -65,8 +65,42 @@ func template(session *discordgo.Session, message *discordgo.MessageCreate, obje
 	logError(err)
 }
 
+func roadmapInP(session *discordgo.Session, message *discordgo.MessageCreate, status string) {
+
+	roadMessage := ""
+	userList := os.Args
+	projectList := make(map[string]string)
+	for _, user := range userList[1:] {
+		userDataParsed := UserInfoParsed{}
+		fileData, err := ioutil.ReadFile(fmt.Sprintf("data/%s.json", user))
+		checkError(err)
+		err = json.Unmarshal(fileData, &userDataParsed)
+		checkError(err)
+		for _, project := range userDataParsed.Projects {
+			if project.ProjectStatus == status {
+				if _, ok := projectList[project.ProjectName]; !ok {
+					projectList[project.ProjectName] = "\n\t| " + user
+				} else {
+					projectList[project.ProjectName] = fmt.Sprintf("%s\n\t| %s", projectList[project.ProjectName], user)
+				}
+			}
+		}
+	}
+	for projectName, projectUsers := range projectList {
+		roadMessage = fmt.Sprintf("%s\n\n%s%10s", roadMessage, projectName, projectUsers)
+	}
+	roadMessage = fmt.Sprintf("<@%s>, Roadmap for '%s'```%s ```", message.Author.ID, status, roadMessage)
+	_, err := session.ChannelMessageSend(message.ChannelID, roadMessage)
+	checkError(err)
+}
+
 func roadmap(session *discordgo.Session, message *discordgo.MessageCreate, status string) {
 	if !Find([]string{"finished", "in_progress"}, status) {
+		return
+	}
+
+	if status == "in_progress" {
+		roadmapInP(session, message, status)
 		return
 	}
 
@@ -74,9 +108,10 @@ func roadmap(session *discordgo.Session, message *discordgo.MessageCreate, statu
 	userList := os.Args
 	projectList := make(map[string]string)
 	re := regexp.MustCompile("[0-9]+")
-	max := make(map[string]int)
 
 	for _, user := range userList[1:] {
+		max := make(map[string]int)
+		maxP := make(map[string]Project)
 		userDataParsed := UserInfoParsed{}
 		fileData, err := ioutil.ReadFile(fmt.Sprintf("data/%s.json", user))
 		checkError(err)
@@ -91,14 +126,18 @@ func roadmap(session *discordgo.Session, message *discordgo.MessageCreate, statu
 				if _, ok := max[pName]; !ok {
 					max[pName] = 0
 				}
-				if cur >= max[pName] || status == "in_progress" {
-					if _, ok := projectList[project.ProjectName]; !ok {
-						projectList[project.ProjectName] = "\n\t| " + user
-					} else {
-						projectList[project.ProjectName] = fmt.Sprintf("%s\n\t| %s", projectList[project.ProjectName], user)
-					}
+				if cur >= max[pName] {
+					maxP[pName] = project
 					max[pName] = cur
 				}
+			}
+		}
+
+		for _, project := range maxP {
+			if _, ok := projectList[project.ProjectName]; !ok {
+				projectList[project.ProjectName] = "\n\t| " + user
+			} else {
+				projectList[project.ProjectName] = fmt.Sprintf("%s\n\t| %s", projectList[project.ProjectName], user)
 			}
 		}
 	}
@@ -107,9 +146,10 @@ func roadmap(session *discordgo.Session, message *discordgo.MessageCreate, statu
 		roadMessage = fmt.Sprintf("%s\n\n%s%10s", roadMessage, projectName, projectUsers)
 	}
 
-	roadMessage = fmt.Sprintf("<@%s>, Roadmap for '%s'```%s ```", message.Author.ID, status, roadMessage)
+	roadMessage = fmt.Sprintf("<@%s>, Roadmap for '%s'```%s ```", status, status, roadMessage)
 	_, err := session.ChannelMessageSend(message.ChannelID, roadMessage)
 	checkError(err)
+	fmt.Println(roadMessage)
 }
 
 func leaderboard(session *discordgo.Session, message *discordgo.MessageCreate) {
