@@ -83,21 +83,21 @@ func roadmap(session *discordgo.Session, message *discordgo.MessageCreate, statu
 		err = json.Unmarshal(fileData, &userDataParsed)
 		checkError(err)
 
-		max["Shell"] = 0
-		max["Rush"] = 0
-		max["C"] = 0
-		max["Exam"] = 0
-
 		for _, project := range userDataParsed.Projects {
 			if project.ProjectStatus == status {
+				pName := project.ProjectName[:strings.IndexByte(project.ProjectName, ' ')]
 				cur, _ := strconv.Atoi(re.FindString(project.ProjectName))
-				if cur > max[project.ProjectName[:strings.IndexByte(project.ProjectName, ':')]] || status == "in_progress" {
+
+				if _, ok := max[pName]; !ok {
+					max[pName] = 0
+				}
+				if cur >= max[pName] || status == "in_progress" {
 					if _, ok := projectList[project.ProjectName]; !ok {
 						projectList[project.ProjectName] = "\n\t| " + user
 					} else {
 						projectList[project.ProjectName] = fmt.Sprintf("%s\n\t| %s", projectList[project.ProjectName], user)
 					}
-					max[project.ProjectName[:strings.IndexByte(project.ProjectName, ':')]] = cur
+					max[pName] = cur
 				}
 			}
 		}
