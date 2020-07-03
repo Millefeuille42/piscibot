@@ -119,7 +119,7 @@ func roadmap(session *discordgo.Session, message *discordgo.MessageCreate, statu
 		checkError(err)
 
 		for _, project := range userDataParsed.Projects {
-			if project.ProjectStatus == status {
+			if project.ProjectStatus == status && project.ProjectMark != 0 {
 				pName := project.ProjectName[:strings.IndexByte(project.ProjectName, ' ')]
 				cur, _ := strconv.Atoi(re.FindString(project.ProjectName))
 
@@ -146,7 +146,7 @@ func roadmap(session *discordgo.Session, message *discordgo.MessageCreate, statu
 		roadMessage = fmt.Sprintf("%s\n\n%s%10s", roadMessage, projectName, projectUsers)
 	}
 
-	roadMessage = fmt.Sprintf("<@%s>, Roadmap for '%s'```%s ```", status, status, roadMessage)
+	roadMessage = fmt.Sprintf("<@%s>, Roadmap for '%s'```%s ```", message.Author.ID, status, roadMessage)
 	_, err := session.ChannelMessageSend(message.ChannelID, roadMessage)
 	checkError(err)
 	fmt.Println(roadMessage)
