@@ -53,7 +53,7 @@ func processUserInfo(userData UserInfo) (UserInfoParsed, error) {
 			projectRaw.FinalMark = 0
 		}
 
-		userDataParsed.Projects[projectRaw.Project.Name] = project
+		userDataParsed.Projects[project.ProjectName] = project
 	}
 
 	return userDataParsed, nil
