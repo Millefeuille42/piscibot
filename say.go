@@ -149,7 +149,6 @@ func roadmap(session *discordgo.Session, message *discordgo.MessageCreate, statu
 	roadMessage = fmt.Sprintf("<@%s>, Roadmap for '%s'```%s ```", message.Author.ID, status, roadMessage)
 	_, err := session.ChannelMessageSend(message.ChannelID, roadMessage)
 	checkError(err)
-	fmt.Println(roadMessage)
 }
 
 func leaderboard(session *discordgo.Session, message *discordgo.MessageCreate) {
@@ -176,6 +175,32 @@ func leaderboard(session *discordgo.Session, message *discordgo.MessageCreate) {
 
 	leadMessage = fmt.Sprintf("<@%s>```%s```", message.Author.ID, leadMessage)
 	_, err := session.ChannelMessageSend(message.ChannelID, leadMessage)
+	checkError(err)
+}
+
+func say_project(session *discordgo.Session, message *discordgo.MessageCreate, project string) {
+	users := os.Args
+	prMessage := ""
+
+	for _, user := range users[1:] {
+		userDataParsed := UserInfoParsed{}
+		fileData, err := ioutil.ReadFile(fmt.Sprintf("data/%s.json", user))
+		checkError(err)
+		err = json.Unmarshal(fileData, &userDataParsed)
+		checkError(err)
+
+		for _, userProject := range userDataParsed.Projects {
+			if userProject.ProjectName == project {
+				prMessage = fmt.Sprintf("%s\n\t| %-15s%d", prMessage, user, userProject.ProjectMark)
+			}
+		}
+	}
+	if prMessage == "" {
+		prMessage = "Perhaps the archives are incomplete..."
+	} else {
+		prMessage = fmt.Sprintf("<@%s>, Grades for %s```%s ```", message.Author.ID, project, prMessage)
+	}
+	_, err := session.ChannelMessageSend(message.ChannelID, prMessage)
 	checkError(err)
 }
 

@@ -10,8 +10,8 @@ import (
 func setVarsToMessage(phrase string, project Project, newData, oldData UserInfoParsed) string {
 	phrase = strings.Replace(phrase, "#{userName}", newData.Login, -1)
 	if project.ProjectName != "null" {
-	phrase = strings.Replace(phrase, "#{project}", fmt.Sprintf("%s", project.ProjectName), -1)
-	phrase = strings.Replace(phrase, "#{mark}", fmt.Sprintf("%d", project.ProjectMark), -1)
+		phrase = strings.Replace(phrase, "#{project}", fmt.Sprintf("%s", project.ProjectName), -1)
+		phrase = strings.Replace(phrase, "#{mark}", fmt.Sprintf("%d", project.ProjectMark), -1)
 	}
 	phrase = strings.Replace(phrase, "#{oldLocation}", oldData.Location, -1)
 	phrase = strings.Replace(phrase, "#{proverb}", phrasePicker("conf/proverbs.txt"), -1)
@@ -24,7 +24,7 @@ func setVarsToMessage(phrase string, project Project, newData, oldData UserInfoP
 
 func announceLocation(param string, newData, oldData UserInfoParsed, session *discordgo.Session) {
 	fakeProject := Project{}
-	
+
 	fakeProject.ProjectName = "null"
 	switch param {
 	case "login":
@@ -100,5 +100,12 @@ func messageHandler(session *discordgo.Session, message *discordgo.MessageCreate
 
 	if strings.HasPrefix(message.Content, "!help") {
 		sayHelp(session, message)
+	}
+
+	if strings.HasPrefix(message.Content, "!project") {
+		arg := strings.Split(message.Content, " ")
+		if len(arg) > 1 {
+			say_project(session, message, arg[1])
+		}
 	}
 }
