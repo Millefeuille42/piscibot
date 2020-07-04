@@ -210,6 +210,33 @@ func sayProject(session *discordgo.Session, message *discordgo.MessageCreate, pr
 	checkError(err)
 }
 
+func sayLocation(session *discordgo.Session, message *discordgo.MessageCreate) {
+	users := os.Args
+	locMessage := ""
+	nullList := make([]string, 0)
+
+	for _, user := range users[1:] {
+		userDataParsed := UserInfoParsed{}
+		fileData, err := ioutil.ReadFile(fmt.Sprintf("data/%s.json", user))
+		checkError(err)
+		err = json.Unmarshal(fileData, &userDataParsed)
+		checkError(err)
+
+		if userDataParsed.Location != "null" {
+			locMessage = fmt.Sprintf("%s\n%-15s%s", locMessage, user, userDataParsed.Location)
+		} else {
+			nullList = append(nullList, user)
+		}
+	}
+
+	for _, user := range nullList {
+		locMessage = fmt.Sprintf("%s\n%-15sOffline", locMessage, user)
+	}
+	locMessage = fmt.Sprintf("<@%s>```%s ```", message.Author.ID, locMessage)
+	_, err := session.ChannelMessageSend(message.ChannelID, locMessage)
+	checkError(err)
+}
+
 func sayHelp(session *discordgo.Session, message *discordgo.MessageCreate) {
 	helpMessage := fmt.Sprintf("<@%s>`Read The Fucking Pin`", message.Author.ID)
 	session.ChannelMessageSend(message.ChannelID, helpMessage)

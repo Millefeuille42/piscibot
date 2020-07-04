@@ -108,4 +108,8 @@ func messageHandler(session *discordgo.Session, message *discordgo.MessageCreate
 			sayProject(session, message, arg[1])
 		}
 	}
+
+	if strings.HasPrefix(message.Content, "!location") {
+		sayLocation(session, message)
+	}
 }
