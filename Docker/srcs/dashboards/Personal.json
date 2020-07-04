@@ -15,8 +15,8 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "id": 6,
-  "iteration": 1593025773031,
+  "id": 4,
+  "iteration": 1593860271110,
   "links": [],
   "panels": [
     {
@@ -32,127 +32,12 @@
       ],
       "datasource": null,
       "decimals": null,
-      "format": "none",
-      "gauge": {
-        "maxValue": 100,
-        "minValue": 0,
-        "show": false,
-        "thresholdLabels": false,
-        "thresholdMarkers": true
-      },
-      "gridPos": {
-        "h": 9,
-        "w": 8,
-        "x": 0,
-        "y": 0
-      },
-      "id": 2,
-      "interval": null,
-      "links": [],
-      "mappingType": 1,
-      "mappingTypes": [
-        {
-          "name": "value to text",
-          "value": 1
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
         },
-        {
-          "name": "range to text",
-          "value": 2
-        }
-      ],
-      "maxDataPoints": 100,
-      "nullPointMode": "connected",
-      "nullText": null,
-      "options": {},
-      "pluginVersion": "6.6.1",
-      "postfix": " Jours",
-      "postfixFontSize": "50%",
-      "prefix": "",
-      "prefixFontSize": "50%",
-      "rangeMaps": [
-        {
-          "from": "null",
-          "text": "N/A",
-          "to": "null"
-        }
-      ],
-      "sparkline": {
-        "fillColor": "rgba(31, 96, 196, 0.2)",
-        "full": true,
-        "lineColor": "rgb(31, 120, 193)",
-        "show": true,
-        "ymax": null,
-        "ymin": null
+        "overrides": []
       },
-      "tableColumn": "",
-      "targets": [
-        {
-          "format": "time_series",
-          "group": [],
-          "metricColumn": "login",
-          "rawQuery": false,
-          "rawSql": "SELECT\n  created_at AS \"time\",\n  login AS metric,\n  black_hole\nFROM over_time_data\nWHERE\n  $__timeFilter(created_at) AND\n  login = '$person'\nORDER BY 1,2",
-          "refId": "A",
-          "select": [
-            [
-              {
-                "params": [
-                  "black_hole"
-                ],
-                "type": "column"
-              }
-            ]
-          ],
-          "table": "over_time_data",
-          "timeColumn": "created_at",
-          "timeColumnType": "timestamptz",
-          "where": [
-            {
-              "name": "$__timeFilter",
-              "params": [],
-              "type": "macro"
-            },
-            {
-              "datatype": "text",
-              "name": "",
-              "params": [
-                "login",
-                "=",
-                "'$person'"
-              ],
-              "type": "expression"
-            }
-          ]
-        }
-      ],
-      "thresholds": "7,31",
-      "timeFrom": null,
-      "timeShift": null,
-      "title": "Blackhole",
-      "type": "singlestat",
-      "valueFontSize": "200%",
-      "valueMaps": [
-        {
-          "op": "=",
-          "text": "N/A",
-          "value": "null"
-        }
-      ],
-      "valueName": "current"
-    },
-    {
-      "cacheTimeout": null,
-      "colorBackground": false,
-      "colorPostfix": false,
-      "colorPrefix": false,
-      "colorValue": true,
-      "colors": [
-        "#d44a3a",
-        "rgba(237, 129, 40, 0.89)",
-        "#299c46"
-      ],
-      "datasource": null,
-      "decimals": null,
       "format": "none",
       "gauge": {
         "maxValue": 100,
@@ -163,8 +48,8 @@
       },
       "gridPos": {
         "h": 9,
-        "w": 8,
-        "x": 8,
+        "w": 12,
+        "x": 0,
         "y": 0
       },
       "id": 3,
@@ -184,7 +69,6 @@
       "maxDataPoints": 100,
       "nullPointMode": "connected",
       "nullText": null,
-      "options": {},
       "pluginVersion": "6.6.1",
       "postfix": "Points",
       "postfixFontSize": "50%",
@@ -274,6 +158,12 @@
       ],
       "datasource": null,
       "decimals": 2,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "format": "percent",
       "gauge": {
         "maxValue": 100,
@@ -284,8 +174,8 @@
       },
       "gridPos": {
         "h": 9,
-        "w": 8,
-        "x": 16,
+        "w": 12,
+        "x": 12,
         "y": 0
       },
       "id": 4,
@@ -305,7 +195,6 @@
       "maxDataPoints": 100,
       "nullPointMode": "connected",
       "nullText": null,
-      "options": {},
       "pluginVersion": "6.6.1",
       "postfix": " ",
       "postfixFontSize": "50%",
@@ -392,6 +281,12 @@
         "#d44a3a"
       ],
       "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "format": "none",
       "gauge": {
         "maxValue": 100,
@@ -423,7 +318,6 @@
       "maxDataPoints": 100,
       "nullPointMode": "connected",
       "nullText": null,
-      "options": {},
       "pluginVersion": "6.6.1",
       "postfix": "",
       "postfixFontSize": "50%",
@@ -490,6 +384,12 @@
       "cacheTimeout": null,
       "columns": [],
       "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "fontSize": "100%",
       "gridPos": {
         "h": 7,
@@ -499,7 +399,6 @@
       },
       "id": 8,
       "links": [],
-      "options": {},
       "pageSize": null,
       "pluginVersion": "6.6.1",
       "showHeader": true,
@@ -552,10 +451,10 @@
       "timeShift": null,
       "title": "Ongoing Projects",
       "transform": "table",
-      "type": "table"
+      "type": "table-old"
     }
   ],
-  "schemaVersion": 22,
+  "schemaVersion": 25,
   "style": "dark",
   "tags": [],
   "templating": {
@@ -563,10 +462,11 @@
       {
         "allValue": null,
         "current": {
-          "text": "mlabouri",
-          "value": "mlabouri"
+          "selected": false,
+          "text": "lmarchai",
+          "value": "lmarchai"
         },
-        "datasource": "PostgreSQL",
+        "datasource": "segbotPQ",
         "definition": "SELECT login from users",
         "hide": 0,
         "includeAll": false,
@@ -593,7 +493,6 @@
   },
   "timepicker": {
     "refresh_intervals": [
-      "5s",
       "10s",
       "30s",
       "1m",
@@ -608,5 +507,5 @@
   "timezone": "",
   "title": "42Segbot - Personal",
   "uid": "aB-yQAzgk",
-  "version": 5
+  "version": 3
 }
