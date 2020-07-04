@@ -204,7 +204,7 @@ func sayProject(session *discordgo.Session, message *discordgo.MessageCreate, pr
 	if prMessage == "" {
 		prMessage = "Perhaps the archives are incomplete..."
 	} else {
-		prMessage = fmt.Sprintf("<@%s>, Grades for %s```%s ```", project, project, prMessage)
+		prMessage = fmt.Sprintf("<@%s>, Grades for %s```%s ```", message.Author.ID, project, prMessage)
 	}
 	_, err := session.ChannelMessageSend(message.ChannelID, prMessage)
 	checkError(err)
