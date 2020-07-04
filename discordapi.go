@@ -105,7 +105,7 @@ func messageHandler(session *discordgo.Session, message *discordgo.MessageCreate
 	if strings.HasPrefix(message.Content, "!project") {
 		arg := strings.Split(message.Content, "-")
 		if len(arg) > 1 {
-			say_project(session, message, arg[1])
+			sayProject(session, message, arg[1])
 		}
 	}
 }

@@ -178,9 +178,10 @@ func leaderboard(session *discordgo.Session, message *discordgo.MessageCreate) {
 	checkError(err)
 }
 
-func say_project(session *discordgo.Session, message *discordgo.MessageCreate, project string) {
+func sayProject(session *discordgo.Session, message *discordgo.MessageCreate, project string) {
 	users := os.Args
 	prMessage := ""
+	prList := make(map[string]int)
 
 	for _, user := range users[1:] {
 		userDataParsed := UserInfoParsed{}
@@ -191,14 +192,19 @@ func say_project(session *discordgo.Session, message *discordgo.MessageCreate, p
 
 		for _, userProject := range userDataParsed.Projects {
 			if userProject.ProjectName == project {
-				prMessage = fmt.Sprintf("%s\n\t| %-15s%d", prMessage, user, userProject.ProjectMark)
+				prList[user] = userProject.ProjectMark
 			}
 		}
 	}
+
+	for _, index := range rankMapStringInt(prList) {
+		prMessage = fmt.Sprintf("%s\n%-15s%d", prMessage, index, prList[index])
+	}
+
 	if prMessage == "" {
 		prMessage = "Perhaps the archives are incomplete..."
 	} else {
-		prMessage = fmt.Sprintf("<@%s>, Grades for %s```%s ```", message.Author.ID, project, prMessage)
+		prMessage = fmt.Sprintf("<@%s>, Grades for %s```%s ```", project, project, prMessage)
 	}
 	_, err := session.ChannelMessageSend(message.ChannelID, prMessage)
 	checkError(err)

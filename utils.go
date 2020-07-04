@@ -1,6 +1,9 @@
 package main
 
-import "log"
+import (
+	"log"
+	"sort"
+)
 
 func checkError(err error) {
 	if err != nil {
@@ -21,4 +24,25 @@ func Find(slice []string, val string) bool {
 		}
 	}
 	return false
+}
+
+func rankMapStringInt(values map[string]int) []string {
+	type kv struct {
+		Key   string
+		Value int
+	}
+
+	var ss []kv
+
+	for k, v := range values {
+		ss = append(ss, kv{k, v})
+	}
+	sort.Slice(ss, func(i, j int) bool {
+		return ss[i].Value > ss[j].Value
+	})
+	ranked := make([]string, len(values))
+	for i, kv := range ss {
+		ranked[i] = kv.Key
+	}
+	return ranked
 }
