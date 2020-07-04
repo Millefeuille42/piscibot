@@ -15,85 +15,9 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
+  "id": 3,
   "links": [],
   "panels": [
-    {
-      "datasource": null,
-      "fieldConfig": {
-        "defaults": {
-          "custom": {},
-          "displayName": "$__cell_0",
-          "mappings": [],
-          "max": 10,
-          "min": 0,
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              }
-            ]
-          },
-          "unit": "percent"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 22,
-        "w": 7,
-        "x": 0,
-        "y": 0
-      },
-      "id": 4,
-      "options": {
-        "displayMode": "gradient",
-        "orientation": "vertical",
-        "reduceOptions": {
-          "calcs": [
-            "mean"
-          ],
-          "limit": 21,
-          "values": true
-        },
-        "showUnfilled": true
-      },
-      "pluginVersion": "7.0.1",
-      "targets": [
-        {
-          "format": "table",
-          "group": [],
-          "metricColumn": "none",
-          "rawQuery": true,
-          "rawSql": "SELECT\n  login,\n  level\nFROM users\nORDER BY 1,2",
-          "refId": "A",
-          "select": [
-            [
-              {
-                "params": [
-                  "level"
-                ],
-                "type": "column"
-              }
-            ]
-          ],
-          "table": "users",
-          "timeColumn": "created_at",
-          "timeColumnType": "timestamp",
-          "where": [
-            {
-              "name": "$__timeFilter",
-              "params": [],
-              "type": "macro"
-            }
-          ]
-        }
-      ],
-      "timeFrom": null,
-      "timeShift": null,
-      "title": "Level",
-      "type": "bargauge"
-    },
     {
       "columns": [],
       "datasource": null,
@@ -105,16 +29,16 @@
       },
       "fontSize": "100%",
       "gridPos": {
-        "h": 17,
-        "w": 17,
-        "x": 7,
+        "h": 16,
+        "w": 24,
+        "x": 0,
         "y": 0
       },
       "id": 8,
       "pageSize": null,
       "showHeader": true,
       "sort": {
-        "col": 0,
+        "col": 2,
         "desc": true
       },
       "styles": [
@@ -266,24 +190,14 @@
       "type": "table-old"
     },
     {
-      "cacheTimeout": null,
       "datasource": null,
       "fieldConfig": {
         "defaults": {
           "custom": {},
           "displayName": "$__cell_0",
-          "mappings": [
-            {
-              "id": 0,
-              "op": "=",
-              "text": "N/A",
-              "type": 1,
-              "value": "null"
-            }
-          ],
-          "max": 21,
+          "mappings": [],
+          "max": 10,
           "min": 0,
-          "nullValueMode": "connected",
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -298,24 +212,23 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 5,
-        "w": 17,
-        "x": 7,
-        "y": 17
+        "h": 17,
+        "w": 24,
+        "x": 0,
+        "y": 16
       },
-      "id": 9,
-      "links": [],
+      "id": 4,
       "options": {
-        "colorMode": "value",
-        "graphMode": "area",
-        "justifyMode": "center",
+        "displayMode": "gradient",
         "orientation": "vertical",
         "reduceOptions": {
           "calcs": [
-            "first"
+            "mean"
           ],
+          "limit": 21,
           "values": true
-        }
+        },
+        "showUnfilled": true
       },
       "pluginVersion": "7.0.1",
       "targets": [
@@ -324,7 +237,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT\n  login,\n  level\nFROM users",
+          "rawSql": "SELECT\n  login,\n  level\nFROM users\nORDER BY 1,2",
           "refId": "A",
           "select": [
             [
@@ -350,8 +263,8 @@
       ],
       "timeFrom": null,
       "timeShift": null,
-      "title": "Levels",
-      "type": "stat"
+      "title": "Level",
+      "type": "bargauge"
     }
   ],
   "refresh": false,
@@ -367,12 +280,10 @@
   },
   "timepicker": {
     "hidden": false,
-    "refresh_intervals": [
-      "5s"
-    ]
+    "refresh_intervals": []
   },
   "timezone": "",
   "title": "42SegBot",
   "uid": "Da79ZAkgz",
-  "version": 1
+  "version": 3
 }
