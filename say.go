@@ -121,8 +121,10 @@ func roadmap(session *discordgo.Session, message *discordgo.MessageCreate, statu
 		for _, project := range userDataParsed.Projects {
 			if project.ProjectStatus == status && project.ProjectMark != 0 {
 				pName := project.ProjectName[:strings.IndexByte(project.ProjectName, ' ')]
-				cur, _ := strconv.Atoi(re.FindString(project.ProjectName))
-
+				cur, err := strconv.Atoi(re.FindString(project.ProjectName))
+				if err != nil {
+					cur = 0
+				}
 				if _, ok := max[pName]; !ok {
 					max[pName] = 0
 				}
@@ -191,7 +193,7 @@ func sayProject(session *discordgo.Session, message *discordgo.MessageCreate, pr
 		checkError(err)
 
 		for _, userProject := range userDataParsed.Projects {
-			if userProject.ProjectName == project {
+			if userProject.ProjectName == project && userProject.ProjectStatus == "finished" {
 				prList[user] = userProject.ProjectMark
 			}
 		}
