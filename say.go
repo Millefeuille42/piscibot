@@ -117,13 +117,14 @@ func roadmap(session *discordgo.Session, message *discordgo.MessageCreate, statu
 		checkError(err)
 		err = json.Unmarshal(fileData, &userDataParsed)
 		checkError(err)
-
+		fmt.Printf(user + "\n")
 		for _, project := range userDataParsed.Projects {
 			if project.ProjectStatus == status && project.ProjectMark != 0 {
-				pName := project.ProjectName[:strings.IndexByte(project.ProjectName, ' ')]
-				cur, err := strconv.Atoi(re.FindString(project.ProjectName))
-				if err != nil {
-					cur = 0
+				cur := 0
+				pName := project.ProjectName
+				if strings.Contains(project.ProjectName, " ") {
+					pName = project.ProjectName[:strings.IndexByte(project.ProjectName, ' ')]
+					cur, _ = strconv.Atoi(re.FindString(project.ProjectName))
 				}
 				if _, ok := max[pName]; !ok {
 					max[pName] = 0
