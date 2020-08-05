@@ -24,7 +24,7 @@ func getPisciList() ([]string, error) {
 	scanner := bufio.NewScanner(file)
 	scanner.Split(bufio.ScanLines)
 	for scanner.Scan() {
-		fileData, err := ioutil.ReadFile(fmt.Sprintf("./data/targets/%s.json", scanner.Text()))
+		fileData, err := ioutil.ReadFile(fmt.Sprintf("./data/registrations/%s.json", scanner.Text()))
 		if err != nil {
 			return nil, err
 		}
