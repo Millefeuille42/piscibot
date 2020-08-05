@@ -72,7 +72,7 @@ func compareData(fileData []byte, newUserData UserInfoParsed, session *discordgo
 }
 
 func checkUserFile(user string, userData UserInfoParsed, session *discordgo.Session) error {
-	var path = fmt.Sprintf("./data/%s.json", user)
+	var path = fmt.Sprintf("./data/targets/%s.json", user)
 
 	_, err := os.Stat(path)
 	if os.IsNotExist(err) {
@@ -113,12 +113,12 @@ func staticDataToDB(user string) {
 	var queryUser User
 	userData := UserInfoParsed{}
 
-	_, err := os.Stat(fmt.Sprintf("./data/%s.json", user))
+	_, err := os.Stat(fmt.Sprintf("./data/targets/%s.json", user))
 	if os.IsNotExist(err) {
 		return
 	}
 
-	fileData, err := ioutil.ReadFile(fmt.Sprintf("./data/%s.json", user))
+	fileData, err := ioutil.ReadFile(fmt.Sprintf("./data/targets/%s.json", user))
 	if err != nil {
 		return
 	}
@@ -156,12 +156,12 @@ func userDataToDB(user string) {
 	var queryUser User
 	userData := UserInfoParsed{}
 
-	_, err := os.Stat(fmt.Sprintf("./data/%s.json", user))
+	_, err := os.Stat(fmt.Sprintf("./data/targets/%s.json", user))
 	if os.IsNotExist(err) {
 		return
 	}
 
-	fileData, err := ioutil.ReadFile(fmt.Sprintf("./data/%s.json", user))
+	fileData, err := ioutil.ReadFile(fmt.Sprintf("./data/targets/%s.json", user))
 	if err != nil {
 		return
 	}

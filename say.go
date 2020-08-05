@@ -26,7 +26,7 @@ func sendUser(session *discordgo.Session, message *discordgo.MessageCreate, user
 
 	userDataParsed := UserInfoParsed{}
 
-	fileData, err := ioutil.ReadFile(fmt.Sprintf("data/%s.json", user))
+	fileData, err := ioutil.ReadFile(fmt.Sprintf("./data/targets/%s.json", user))
 	checkError(err)
 	err = json.Unmarshal(fileData, &userDataParsed)
 	checkError(err)
@@ -72,7 +72,7 @@ func roadmapInP(session *discordgo.Session, message *discordgo.MessageCreate, st
 	projectList := make(map[string]string)
 	for _, user := range userList[1:] {
 		userDataParsed := UserInfoParsed{}
-		fileData, err := ioutil.ReadFile(fmt.Sprintf("data/%s.json", user))
+		fileData, err := ioutil.ReadFile(fmt.Sprintf("./data/targets/%s.json", user))
 		checkError(err)
 		err = json.Unmarshal(fileData, &userDataParsed)
 		checkError(err)
@@ -113,7 +113,7 @@ func roadmap(session *discordgo.Session, message *discordgo.MessageCreate, statu
 		max := make(map[string]int)
 		maxP := make(map[string]Project)
 		userDataParsed := UserInfoParsed{}
-		fileData, err := ioutil.ReadFile(fmt.Sprintf("data/%s.json", user))
+		fileData, err := ioutil.ReadFile(fmt.Sprintf("./data/targets/%s.json", user))
 		checkError(err)
 		err = json.Unmarshal(fileData, &userDataParsed)
 		checkError(err)
@@ -161,7 +161,7 @@ func leaderboard(session *discordgo.Session, message *discordgo.MessageCreate) {
 	userDataParsed := UserInfoParsed{}
 
 	for _, user := range userList[1:] {
-		fileData, err := ioutil.ReadFile(fmt.Sprintf("data/%s.json", user))
+		fileData, err := ioutil.ReadFile(fmt.Sprintf("./data/targets/%s.json", user))
 		checkError(err)
 		err = json.Unmarshal(fileData, &userDataParsed)
 		checkError(err)
@@ -188,7 +188,7 @@ func sayProject(session *discordgo.Session, message *discordgo.MessageCreate, pr
 
 	for _, user := range users[1:] {
 		userDataParsed := UserInfoParsed{}
-		fileData, err := ioutil.ReadFile(fmt.Sprintf("data/%s.json", user))
+		fileData, err := ioutil.ReadFile(fmt.Sprintf("./data/targets/%s.json", user))
 		checkError(err)
 		err = json.Unmarshal(fileData, &userDataParsed)
 		checkError(err)
@@ -220,7 +220,7 @@ func sayLocation(session *discordgo.Session, message *discordgo.MessageCreate) {
 
 	for _, user := range users[1:] {
 		userDataParsed := UserInfoParsed{}
-		fileData, err := ioutil.ReadFile(fmt.Sprintf("data/%s.json", user))
+		fileData, err := ioutil.ReadFile(fmt.Sprintf("./data/targets/%s.json", user))
 		checkError(err)
 		err = json.Unmarshal(fileData, &userDataParsed)
 		checkError(err)
