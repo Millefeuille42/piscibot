@@ -71,7 +71,7 @@ func roadmapInP(session *discordgo.Session, message *discordgo.MessageCreate, st
 	roadMessage := ""
 	userList, _ := getPisciList()
 	projectList := make(map[string]string)
-	for _, user := range userList[1:] {
+	for _, user := range userList {
 		userDataParsed := UserInfoParsed{}
 		fileData, err := ioutil.ReadFile(fmt.Sprintf("./data/targets/%s.json", user))
 		checkError(err)
@@ -110,7 +110,7 @@ func roadmap(session *discordgo.Session, message *discordgo.MessageCreate, statu
 	projectList := make(map[string]string)
 	re := regexp.MustCompile("[0-9]+")
 
-	for _, user := range userList[1:] {
+	for _, user := range userList {
 		max := make(map[string]int)
 		maxP := make(map[string]Project)
 		userDataParsed := UserInfoParsed{}
@@ -161,7 +161,7 @@ func leaderboard(session *discordgo.Session, message *discordgo.MessageCreate) {
 	userPair := make([]levelNamePair, 0)
 	userDataParsed := UserInfoParsed{}
 
-	for _, user := range userList[1:] {
+	for _, user := range userList {
 		fileData, err := ioutil.ReadFile(fmt.Sprintf("./data/targets/%s.json", user))
 		checkError(err)
 		err = json.Unmarshal(fileData, &userDataParsed)
@@ -187,7 +187,7 @@ func sayProject(session *discordgo.Session, message *discordgo.MessageCreate, pr
 	prMessage := ""
 	prList := make(map[string]int)
 
-	for _, user := range users[1:] {
+	for _, user := range users {
 		userDataParsed := UserInfoParsed{}
 		fileData, err := ioutil.ReadFile(fmt.Sprintf("./data/targets/%s.json", user))
 		checkError(err)
@@ -219,7 +219,7 @@ func sayLocation(session *discordgo.Session, message *discordgo.MessageCreate) {
 	locMessage := ""
 	nullList := make([]string, 0)
 
-	for _, user := range users[1:] {
+	for _, user := range users {
 		userDataParsed := UserInfoParsed{}
 		fileData, err := ioutil.ReadFile(fmt.Sprintf("./data/targets/%s.json", user))
 		checkError(err)
