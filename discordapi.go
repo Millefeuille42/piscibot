@@ -114,7 +114,7 @@ func messageHandler(session *discordgo.Session, message *discordgo.MessageCreate
 	}
 
 	if strings.HasPrefix(message.Content, "!register") {
-		args := strings.Split(message.Content, "-")
+		args := strings.Split(message.Content, "|")
 		if len(args) == 4 {
 			_ = registerUser(session, message, args)
 		}
