@@ -28,9 +28,13 @@ func sendUser(session *discordgo.Session, message *discordgo.MessageCreate, user
 	userDataParsed := UserInfoParsed{}
 
 	fileData, err := ioutil.ReadFile(fmt.Sprintf("./data/targets/%s.json", user))
-	checkError(err)
+	if err != nil {
+		return
+	}
 	err = json.Unmarshal(fileData, &userDataParsed)
-	checkError(err)
+	if err != nil {
+		return
+	}
 
 	userMessage := fmt.Sprintf("<@%s>\n"+
 		"```"+
@@ -47,7 +51,9 @@ func sendUser(session *discordgo.Session, message *discordgo.MessageCreate, user
 	)
 
 	_, err = session.ChannelMessageSend(message.ChannelID, userMessage)
-	checkError(err)
+	if err != nil {
+		return
+	}
 }
 
 func template(session *discordgo.Session, message *discordgo.MessageCreate, object string) {
@@ -74,9 +80,13 @@ func roadmapInP(session *discordgo.Session, message *discordgo.MessageCreate, st
 	for _, user := range userList {
 		userDataParsed := UserInfoParsed{}
 		fileData, err := ioutil.ReadFile(fmt.Sprintf("./data/targets/%s.json", user))
-		checkError(err)
+		if err != nil {
+			return
+		}
 		err = json.Unmarshal(fileData, &userDataParsed)
-		checkError(err)
+		if err != nil {
+			return
+		}
 		for _, project := range userDataParsed.Projects {
 			if project.ProjectStatus == status {
 				if _, ok := projectList[project.ProjectName]; !ok {
@@ -92,7 +102,9 @@ func roadmapInP(session *discordgo.Session, message *discordgo.MessageCreate, st
 	}
 	roadMessage = fmt.Sprintf("<@%s>, Roadmap for '%s'```%s ```", message.Author.ID, status, roadMessage)
 	_, err := session.ChannelMessageSend(message.ChannelID, roadMessage)
-	checkError(err)
+	if err != nil {
+		return
+	}
 }
 
 func roadmap(session *discordgo.Session, message *discordgo.MessageCreate, status string) {
@@ -115,9 +127,13 @@ func roadmap(session *discordgo.Session, message *discordgo.MessageCreate, statu
 		maxP := make(map[string]Project)
 		userDataParsed := UserInfoParsed{}
 		fileData, err := ioutil.ReadFile(fmt.Sprintf("./data/targets/%s.json", user))
-		checkError(err)
+		if err != nil {
+			return
+		}
 		err = json.Unmarshal(fileData, &userDataParsed)
-		checkError(err)
+		if err != nil {
+			return
+		}
 		fmt.Printf(user + "\n")
 		for _, project := range userDataParsed.Projects {
 			if project.ProjectStatus == status && project.ProjectMark != 0 {
@@ -152,7 +168,9 @@ func roadmap(session *discordgo.Session, message *discordgo.MessageCreate, statu
 
 	roadMessage = fmt.Sprintf("<@%s>, Roadmap for '%s'```%s ```", message.Author.ID, status, roadMessage)
 	_, err := session.ChannelMessageSend(message.ChannelID, roadMessage)
-	checkError(err)
+	if err != nil {
+		return
+	}
 }
 
 func leaderboard(session *discordgo.Session, message *discordgo.MessageCreate) {
@@ -163,9 +181,13 @@ func leaderboard(session *discordgo.Session, message *discordgo.MessageCreate) {
 
 	for _, user := range userList {
 		fileData, err := ioutil.ReadFile(fmt.Sprintf("./data/targets/%s.json", user))
-		checkError(err)
+		if err != nil {
+			return
+		}
 		err = json.Unmarshal(fileData, &userDataParsed)
-		checkError(err)
+		if err != nil {
+			return
+		}
 		userPair = append(userPair, levelNamePair{userDataParsed.Login, userDataParsed.Level})
 	}
 
@@ -179,7 +201,9 @@ func leaderboard(session *discordgo.Session, message *discordgo.MessageCreate) {
 
 	leadMessage = fmt.Sprintf("<@%s>```%s```", message.Author.ID, leadMessage)
 	_, err := session.ChannelMessageSend(message.ChannelID, leadMessage)
-	checkError(err)
+	if err != nil {
+		return
+	}
 }
 
 func sayProject(session *discordgo.Session, message *discordgo.MessageCreate, project string) {
@@ -190,10 +214,13 @@ func sayProject(session *discordgo.Session, message *discordgo.MessageCreate, pr
 	for _, user := range users {
 		userDataParsed := UserInfoParsed{}
 		fileData, err := ioutil.ReadFile(fmt.Sprintf("./data/targets/%s.json", user))
-		checkError(err)
+		if err != nil {
+			return
+		}
 		err = json.Unmarshal(fileData, &userDataParsed)
-		checkError(err)
-
+		if err != nil {
+			return
+		}
 		for _, userProject := range userDataParsed.Projects {
 			if userProject.ProjectName == project && userProject.ProjectStatus == "finished" {
 				prList[user] = userProject.ProjectMark
@@ -211,7 +238,9 @@ func sayProject(session *discordgo.Session, message *discordgo.MessageCreate, pr
 		prMessage = fmt.Sprintf("<@%s>, Grades for %s```%s ```", message.Author.ID, project, prMessage)
 	}
 	_, err := session.ChannelMessageSend(message.ChannelID, prMessage)
-	checkError(err)
+	if err != nil {
+		return
+	}
 }
 
 func sayLocation(session *discordgo.Session, message *discordgo.MessageCreate) {
@@ -222,9 +251,13 @@ func sayLocation(session *discordgo.Session, message *discordgo.MessageCreate) {
 	for _, user := range users {
 		userDataParsed := UserInfoParsed{}
 		fileData, err := ioutil.ReadFile(fmt.Sprintf("./data/targets/%s.json", user))
-		checkError(err)
+		if err != nil {
+			return
+		}
 		err = json.Unmarshal(fileData, &userDataParsed)
-		checkError(err)
+		if err != nil {
+			return
+		}
 
 		if userDataParsed.Location != "null" {
 			locMessage = fmt.Sprintf("%s\n%-15s%s", locMessage, user, userDataParsed.Location)
@@ -238,7 +271,9 @@ func sayLocation(session *discordgo.Session, message *discordgo.MessageCreate) {
 	}
 	locMessage = fmt.Sprintf("<@%s>```%s ```", message.Author.ID, locMessage)
 	_, err := session.ChannelMessageSend(message.ChannelID, locMessage)
-	checkError(err)
+	if err != nil {
+		return
+	}
 }
 
 func sayHelp(session *discordgo.Session, message *discordgo.MessageCreate) {
