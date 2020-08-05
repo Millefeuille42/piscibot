@@ -86,6 +86,8 @@ func registerUser(session *discordgo.Session, message *discordgo.MessageCreate, 
 		_, _ = session.ChannelMessageSend(message.ChannelID, err.Error())
 		return err
 	}
+	_ = session.GuildMemberRoleAdd(message.GuildID, message.Author.ID, os.Getenv("DISCORDREGISTEREDROLE"))
+	_ = session.GuildMemberRoleRemove(message.GuildID, message.Author.ID, os.Getenv("DISCORDUNREGISTEREDROLE"))
 	return nil
 }
 
