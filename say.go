@@ -81,11 +81,11 @@ func roadmapInP(session *discordgo.Session, message *discordgo.MessageCreate, st
 		userDataParsed := UserInfoParsed{}
 		fileData, err := ioutil.ReadFile(fmt.Sprintf("./data/targets/%s.json", user))
 		if err != nil {
-			return
+			continue
 		}
 		err = json.Unmarshal(fileData, &userDataParsed)
 		if err != nil {
-			return
+			continue
 		}
 		for _, project := range userDataParsed.Projects {
 			if project.ProjectStatus == status {
@@ -128,11 +128,11 @@ func roadmap(session *discordgo.Session, message *discordgo.MessageCreate, statu
 		userDataParsed := UserInfoParsed{}
 		fileData, err := ioutil.ReadFile(fmt.Sprintf("./data/targets/%s.json", user))
 		if err != nil {
-			return
+			continue
 		}
 		err = json.Unmarshal(fileData, &userDataParsed)
 		if err != nil {
-			return
+			continue
 		}
 		fmt.Printf(user + "\n")
 		for _, project := range userDataParsed.Projects {
@@ -182,11 +182,11 @@ func leaderboard(session *discordgo.Session, message *discordgo.MessageCreate) {
 	for _, user := range userList {
 		fileData, err := ioutil.ReadFile(fmt.Sprintf("./data/targets/%s.json", user))
 		if err != nil {
-			return
+			continue
 		}
 		err = json.Unmarshal(fileData, &userDataParsed)
 		if err != nil {
-			return
+			continue
 		}
 		userPair = append(userPair, levelNamePair{userDataParsed.Login, userDataParsed.Level})
 	}
@@ -215,11 +215,11 @@ func sayProject(session *discordgo.Session, message *discordgo.MessageCreate, pr
 		userDataParsed := UserInfoParsed{}
 		fileData, err := ioutil.ReadFile(fmt.Sprintf("./data/targets/%s.json", user))
 		if err != nil {
-			return
+			continue
 		}
 		err = json.Unmarshal(fileData, &userDataParsed)
 		if err != nil {
-			return
+			continue
 		}
 		for _, userProject := range userDataParsed.Projects {
 			if userProject.ProjectName == project && userProject.ProjectStatus == "finished" {
@@ -252,11 +252,11 @@ func sayLocation(session *discordgo.Session, message *discordgo.MessageCreate) {
 		userDataParsed := UserInfoParsed{}
 		fileData, err := ioutil.ReadFile(fmt.Sprintf("./data/targets/%s.json", user))
 		if err != nil {
-			return
+			continue
 		}
 		err = json.Unmarshal(fileData, &userDataParsed)
 		if err != nil {
-			return
+			continue
 		}
 
 		if userDataParsed.Location != "null" {
