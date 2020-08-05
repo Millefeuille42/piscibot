@@ -11,8 +11,10 @@ import (
 )
 
 func writeUsers(api Api42, session *discordgo.Session) Api42 {
-
-	var userList = os.Args
+	userList, err := getPisciList()
+	if err != nil {
+		return api
+	}
 
 	for _, user := range userList[1:] {
 		userData := UserInfo{}
@@ -67,7 +69,11 @@ func main() {
 	setupCloseHandler(discordBot)
 
 	go func() {
-		var userList = os.Args
+		userList, err := getPisciList()
+
+		if err != nil {
+			return
+		}
 		for {
 			for _, user := range userList[1:] {
 				userDataToDB(user)
