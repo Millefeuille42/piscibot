@@ -7,7 +7,6 @@ import (
 	"github.com/bwmarrin/discordgo"
 	"io/ioutil"
 	"log"
-	"os"
 	"regexp"
 	"sort"
 	"strconv"
@@ -20,7 +19,9 @@ type levelNamePair struct {
 }
 
 func sendUser(session *discordgo.Session, message *discordgo.MessageCreate, user string) {
-	if !Find(os.Args, user) {
+	userList, _ := getPisciList()
+
+	if !Find(userList, user) {
 		return
 	}
 
@@ -68,7 +69,7 @@ func template(session *discordgo.Session, message *discordgo.MessageCreate, obje
 func roadmapInP(session *discordgo.Session, message *discordgo.MessageCreate, status string) {
 
 	roadMessage := ""
-	userList := os.Args
+	userList, _ := getPisciList()
 	projectList := make(map[string]string)
 	for _, user := range userList[1:] {
 		userDataParsed := UserInfoParsed{}
@@ -105,7 +106,7 @@ func roadmap(session *discordgo.Session, message *discordgo.MessageCreate, statu
 	}
 
 	roadMessage := ""
-	userList := os.Args
+	userList, _ := getPisciList()
 	projectList := make(map[string]string)
 	re := regexp.MustCompile("[0-9]+")
 
@@ -156,7 +157,7 @@ func roadmap(session *discordgo.Session, message *discordgo.MessageCreate, statu
 
 func leaderboard(session *discordgo.Session, message *discordgo.MessageCreate) {
 	var leadMessage = ""
-	userList := os.Args
+	userList, _ := getPisciList()
 	userPair := make([]levelNamePair, 0)
 	userDataParsed := UserInfoParsed{}
 
@@ -182,7 +183,7 @@ func leaderboard(session *discordgo.Session, message *discordgo.MessageCreate) {
 }
 
 func sayProject(session *discordgo.Session, message *discordgo.MessageCreate, project string) {
-	users := os.Args
+	users, _ := getPisciList()
 	prMessage := ""
 	prList := make(map[string]int)
 
@@ -214,7 +215,7 @@ func sayProject(session *discordgo.Session, message *discordgo.MessageCreate, pr
 }
 
 func sayLocation(session *discordgo.Session, message *discordgo.MessageCreate) {
-	users := os.Args
+	users, _ := getPisciList()
 	locMessage := ""
 	nullList := make([]string, 0)
 
@@ -242,5 +243,5 @@ func sayLocation(session *discordgo.Session, message *discordgo.MessageCreate) {
 
 func sayHelp(session *discordgo.Session, message *discordgo.MessageCreate) {
 	helpMessage := fmt.Sprintf("<@%s>`Read The Fucking Pin`", message.Author.ID)
-	session.ChannelMessageSend(message.ChannelID, helpMessage)
+	_, _ = session.ChannelMessageSend(message.ChannelID, helpMessage)
 }
