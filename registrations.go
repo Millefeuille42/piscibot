@@ -7,6 +7,7 @@ import (
 	"github.com/bwmarrin/discordgo"
 	"io/ioutil"
 	"os"
+	"strings"
 )
 
 type userRegistrationFile struct {
@@ -16,12 +17,20 @@ type userRegistrationFile struct {
 	UserID string
 }
 
+func formatRegistrationArgs(args *[]string) {
+	(*args)[1] = strings.TrimSpace((*args)[1])
+	(*args)[2] = strings.TrimSpace((*args)[2])
+	(*args)[3] = strings.TrimSpace((*args)[3])
+	(*args)[1] = strings.ToLower((*args)[1])
+	(*args)[2] = strings.ToLower((*args)[2])
+}
+
 func checkRegistrationError(session *discordgo.Session, message *discordgo.MessageCreate, args []string) error {
-	_, loginExist := os.Stat(fmt.Sprintf("./data/registrations/%s.json", args[1]))
+	_, loginExist := os.Stat(fmt.Sprintf("./data/registrations/%s.json", message.Author.ID))
 	_, pisciExist := os.Stat(fmt.Sprintf("./data/targets/%s.json", args[2]))
 	if loginExist == nil {
 		_, _ = session.ChannelMessageSend(message.ChannelID,
-			fmt.Sprintf("<@%s> %s is already registered!", message.Author.ID, message.Author.ID))
+			fmt.Sprintf("<@%s> You are already registered!", message.Author.ID))
 		return os.ErrExist
 	}
 	if pisciExist == nil {
@@ -58,6 +67,7 @@ func createRegistrationFile(message *discordgo.MessageCreate, args []string) err
 }
 
 func registerUser(session *discordgo.Session, message *discordgo.MessageCreate, args []string) error {
+	formatRegistrationArgs(&args)
 	if err := checkRegistrationError(session, message, args); err != nil {
 		return err
 	}
