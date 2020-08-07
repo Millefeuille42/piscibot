@@ -117,3 +117,17 @@ func getPisciList() ([]string, error) {
 	_ = file.Close()
 	return userList, nil
 }
+
+func getPisciPerID(userID string) (string, error) {
+	UserRegistration := userRegistrationFile{}
+
+	fileData, err := ioutil.ReadFile(fmt.Sprintf("./data/registrations/%s.json", userID))
+	if err != nil {
+		return "", err
+	}
+	err = json.Unmarshal(fileData, &UserRegistration)
+	if err != nil {
+		return "", err
+	}
+	return UserRegistration.Pisci, nil
+}

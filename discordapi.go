@@ -93,9 +93,12 @@ func messageHandler(session *discordgo.Session, message *discordgo.MessageCreate
 
 	if strings.HasPrefix(message.Content, "!user") {
 		arg := strings.Split(message.Content, " ")
-		if len(arg) > 1 {
-			sendUser(session, message, arg[1])
-		}
+		sendUser(session, message, arg)
+	}
+
+	if strings.HasPrefix(message.Content, "!info") {
+		arg := strings.Split(message.Content, " ")
+		sendInfo(session, message, arg)
 	}
 
 	if strings.HasPrefix(message.Content, "!help") {

@@ -18,41 +18,91 @@ type levelNamePair struct {
 	level float64
 }
 
-func sendUser(session *discordgo.Session, message *discordgo.MessageCreate, user string) {
+func sendInfo(session *discordgo.Session, message *discordgo.MessageCreate, arg []string) {
 	userList, _ := getPisciList()
 
-	if !Find(userList, user) {
-		return
+	if len(arg) <= 1 {
+		user, err := getPisciPerID(message.Author.ID)
+		if err != nil {
+			_, err = session.ChannelMessageSend(message.ChannelID, "You are not registered / "+err.Error())
+		}
+		arg = append(arg, user)
 	}
 
-	userDataParsed := UserInfoParsed{}
+	for _, user := range arg[1:] {
+		if !Find(userList, user) {
+			return
+		}
 
-	fileData, err := ioutil.ReadFile(fmt.Sprintf("./data/targets/%s.json", user))
-	if err != nil {
-		return
+		userDataParsed := UserInfoParsed{}
+
+		fileData, err := ioutil.ReadFile(fmt.Sprintf("./data/targets/%s.json", user))
+		if err != nil {
+			return
+		}
+		err = json.Unmarshal(fileData, &userDataParsed)
+		if err != nil {
+			return
+		}
+
+		userMessage := fmt.Sprintf("<@%s>\n"+
+			"```"+
+			"\n\tLocation:              %s"+
+			"\n\tCorrection Points:     %d"+
+			"\n\tLevel:                 %.2f"+
+			"```",
+			message.Author.ID,
+			userDataParsed.Location,
+			userDataParsed.CorrectionPoint,
+			userDataParsed.Level,
+		)
+		_, _ = session.ChannelMessageSend(message.ChannelID, userMessage)
 	}
-	err = json.Unmarshal(fileData, &userDataParsed)
-	if err != nil {
-		return
+}
+
+func sendUser(session *discordgo.Session, message *discordgo.MessageCreate, arg []string) {
+	userList, _ := getPisciList()
+
+	if len(arg) <= 1 {
+		user, err := getPisciPerID(message.Author.ID)
+		if err != nil {
+			_, err = session.ChannelMessageSend(message.ChannelID, "You are not registered / "+err.Error())
+		}
+		arg = append(arg, user)
 	}
 
-	userMessage := fmt.Sprintf("<@%s>\n"+
-		"```"+
-		"\n\tEmail:                 %s"+
-		"\n\tLocation:              %s"+
-		"\n\tCorrection Points:     %d"+
-		"\n\tNiveau:                %.2f"+
-		"```",
-		message.Author.ID,
-		userDataParsed.Email,
-		userDataParsed.Location,
-		userDataParsed.CorrectionPoint,
-		userDataParsed.Level,
-	)
+	for _, user := range arg[1:] {
+		if !Find(userList, user) {
+			return
+		}
 
-	_, err = session.ChannelMessageSend(message.ChannelID, userMessage)
-	if err != nil {
-		return
+		userDataParsed := UserInfoParsed{}
+
+		fileData, err := ioutil.ReadFile(fmt.Sprintf("./data/targets/%s.json", user))
+		if err != nil {
+			return
+		}
+		err = json.Unmarshal(fileData, &userDataParsed)
+		if err != nil {
+			return
+		}
+
+		userMessage := fmt.Sprintf("<@%s>\n"+
+			"```"+
+			"\n\tLocation:              %s"+
+			"\n\tCorrection Points:     %d"+
+			"\n\tLevel:                 %.2f"+
+			"\n\tLatest Projects:       %s"+
+			"\n\tCurrent Projects:      %s"+
+			"```",
+			message.Author.ID,
+			userDataParsed.Location,
+			userDataParsed.CorrectionPoint,
+			userDataParsed.Level,
+			getHighestProject(userDataParsed),
+			getOngoingProject(userDataParsed),
+		)
+		_, _ = session.ChannelMessageSend(message.ChannelID, userMessage)
 	}
 }
 
