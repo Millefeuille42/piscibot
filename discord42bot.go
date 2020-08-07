@@ -74,7 +74,7 @@ func main() {
 			return
 		}
 		for {
-			for _, user := range userList[1:] {
+			for _, user := range userList {
 				userDataToDB(user)
 			}
 			time.Sleep(6 * time.Hour)
