@@ -85,7 +85,11 @@ func getOngoingProject(userDataParsed UserInfoParsed) string {
 	var prList = ""
 
 	for _, project := range userDataParsed.Projects {
-		prList = fmt.Sprintf("%s\n\t\t                   %s", prList, project.ProjectName)
+		if project.ProjectMark != 0 {
+			prList = fmt.Sprintf("%s\n\t\t                   %-15s%d", prList, project.ProjectName, project.ProjectMark)
+		} else {
+			prList = fmt.Sprintf("%s\n\t\t                   %s", prList, project.ProjectName)
+		}
 	}
 	return prList
 }
