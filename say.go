@@ -45,7 +45,7 @@ func sendInfo(session *discordgo.Session, message *discordgo.MessageCreate, arg 
 			return
 		}
 
-		userMessage := fmt.Sprintf("<@%s> %s\n"+
+		userMessage := fmt.Sprintf("<@%s> Info about `%s` (`%s`)\n"+
 			"```"+
 			"\n\tLocation:              %s"+
 			"\n\tCorrection Points:     %d"+
@@ -53,6 +53,7 @@ func sendInfo(session *discordgo.Session, message *discordgo.MessageCreate, arg 
 			"```",
 			message.Author.ID,
 			userDataParsed.Login,
+			userDataParsed.Gambler,
 			userDataParsed.Location,
 			userDataParsed.CorrectionPoint,
 			userDataParsed.Level,
@@ -88,7 +89,7 @@ func sendUser(session *discordgo.Session, message *discordgo.MessageCreate, arg 
 			return
 		}
 
-		userMessage := fmt.Sprintf("<@%s> %s\n"+
+		userMessage := fmt.Sprintf("<@%s> Info about `%s` (`%s`)\n"+
 			"```"+
 			"\n\tLocation:              %s"+
 			"\n\tCorrection Points:     %d"+
@@ -98,6 +99,7 @@ func sendUser(session *discordgo.Session, message *discordgo.MessageCreate, arg 
 			"```",
 			message.Author.ID,
 			userDataParsed.Login,
+			userDataParsed.Gambler,
 			userDataParsed.Location,
 			userDataParsed.CorrectionPoint,
 			userDataParsed.Level,
