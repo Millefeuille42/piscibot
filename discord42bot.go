@@ -38,7 +38,7 @@ func writeUsers(api Api42, session *discordgo.Session) Api42 {
 			logError(err)
 			continue
 		}
-		//staticDataToDB(user)
+		staticDataToDB(user)
 		time.Sleep(3000 * time.Millisecond)
 	}
 	return api
@@ -68,18 +68,18 @@ func main() {
 
 	setupCloseHandler(discordBot)
 
-	//go func() {
-	//	userList, err := getPisciList()
-	//	if err != nil {
-	//		return
-	//	}
-	//	for {
-	//		for _, user := range userList[1:] {
-	//			userDataToDB(user)
-	//		}
-	//		time.Sleep(6 * time.Hour)
-	//	}
-	//}()
+	go func() {
+		userList, err := getPisciList()
+		if err != nil {
+			return
+		}
+		for {
+			for _, user := range userList[1:] {
+				userDataToDB(user)
+			}
+			time.Sleep(6 * time.Hour)
+		}
+	}()
 
 	for {
 		api = writeUsers(api, discordBot)
