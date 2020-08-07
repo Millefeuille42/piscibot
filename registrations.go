@@ -118,6 +118,31 @@ func getPisciList() ([]string, error) {
 	return userList, nil
 }
 
+func getPisciMap() (map[string]string, error) {
+	UserRegistration := userRegistrationFile{}
+	userMap := make(map[string]string)
+
+	file, err := os.Open("./data/registrations/userlist.txt")
+	if err != nil {
+		return nil, err
+	}
+	scanner := bufio.NewScanner(file)
+	scanner.Split(bufio.ScanLines)
+	for scanner.Scan() {
+		fileData, err := ioutil.ReadFile(fmt.Sprintf("./data/registrations/%s.json", scanner.Text()))
+		if err != nil {
+			return nil, err
+		}
+		err = json.Unmarshal(fileData, &UserRegistration)
+		if err != nil {
+			return nil, err
+		}
+		userMap[UserRegistration.Pisci] = UserRegistration.Login
+	}
+	_ = file.Close()
+	return userMap, nil
+}
+
 func getPisciPerID(userID string) (string, error) {
 	UserRegistration := userRegistrationFile{}
 

@@ -12,6 +12,7 @@ import (
 
 func writeUsers(api Api42, session *discordgo.Session) Api42 {
 	userList, err := getPisciList()
+	userMap, err := getPisciMap()
 	if err != nil {
 		return api
 	}
@@ -33,6 +34,7 @@ func writeUsers(api Api42, session *discordgo.Session) Api42 {
 			continue
 		}
 		fmt.Println("\tProcessed raw data")
+		userDataParsed.Gambler = userMap[user]
 		err = checkUserFile(user, userDataParsed, session)
 		if err != nil {
 			logError(err)

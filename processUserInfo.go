@@ -9,6 +9,7 @@ type Project struct {
 }
 
 type UserInfoParsed struct {
+	Gambler         string
 	Login           string
 	Email           string
 	Location        string
