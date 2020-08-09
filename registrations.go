@@ -51,16 +51,19 @@ func createRegistrationFile(message *discordgo.MessageCreate, args []string) err
 
 	registrationJson, err := json.MarshalIndent(userRegistration, "", "\t")
 	if err != nil {
+		logError(err)
 		return err
 	}
 	file, err := os.Create(fmt.Sprintf("./data/registrations/%s.json", message.Author.ID))
 	if err != nil {
+		logError(err)
 		return err
 	}
 	defer file.Close()
 	err = ioutil.WriteFile(fmt.Sprintf("./data/registrations/%s.json", message.Author.ID),
 		registrationJson, 0644)
 	if err != nil {
+		logError(err)
 		return err
 	}
 	return nil
@@ -73,17 +76,20 @@ func registerUser(session *discordgo.Session, message *discordgo.MessageCreate, 
 	}
 	if err := createRegistrationFile(message, args); err != nil {
 		_, _ = session.ChannelMessageSend(message.ChannelID, err.Error())
+		logError(err)
 		return err
 	}
 	f, err := os.OpenFile("./data/registrations/userlist.txt",
 		os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
 	if err != nil {
 		_, _ = session.ChannelMessageSend(message.ChannelID, err.Error())
+		logError(err)
 		return err
 	}
 	defer f.Close()
 	if _, err := f.WriteString(fmt.Sprintf("%s\n", message.Author.ID)); err != nil {
 		_, _ = session.ChannelMessageSend(message.ChannelID, err.Error())
+		logError(err)
 		return err
 	}
 	_ = session.GuildMemberRoleAdd(message.GuildID, message.Author.ID, os.Getenv("DISCORDREGISTEREDROLE"))

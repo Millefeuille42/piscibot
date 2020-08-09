@@ -12,8 +12,10 @@ func checkFileLines(path string) int {
 	var i = 0
 
 	file, err := os.Open(path)
-	checkError(err)
-
+	if err != nil {
+		logError(err)
+		return 0
+	}
 	reader := bufio.NewReader(file)
 	defer file.Close()
 
@@ -23,7 +25,10 @@ func checkFileLines(path string) int {
 		if err != nil && err == io.EOF {
 			break
 		}
-		checkError(err)
+		if err != nil {
+			logError(err)
+			return 0
+		}
 	}
 	return i
 }
@@ -34,8 +39,10 @@ func parseFileToLines(path string) ([]string, int) {
 	var i = 0
 
 	file, err := os.Open(path)
-	checkError(err)
-
+	if err != nil {
+		logError(err)
+		return nil, 0
+	}
 	reader := bufio.NewReader(file)
 	defer file.Close()
 
@@ -45,7 +52,10 @@ func parseFileToLines(path string) ([]string, int) {
 		if err != nil && err == io.EOF {
 			break
 		}
-		checkError(err)
+		if err != nil {
+			logError(err)
+			return nil, 0
+		}
 		i++
 	}
 	return lines, lineNum

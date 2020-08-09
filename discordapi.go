@@ -31,17 +31,17 @@ func announceLocation(param string, newData, oldData UserInfoParsed, session *di
 		message := setVarsToMessage(phrasePicker("conf/login.txt"), fakeProject, newData, oldData)
 		fmt.Println(fmt.Sprintf("\t\tSending login for %s, on %s", newData.Login, newData.Location))
 		_, err := session.ChannelMessageSend(os.Getenv("DISCORDLOC"), message)
-		checkError(err)
+		logError(err)
 	case "logout":
 		message := setVarsToMessage(phrasePicker("conf/logout.txt"), fakeProject, newData, oldData)
 		fmt.Println(fmt.Sprintf("\t\tSending logout for %s", newData.Login))
 		_, err := session.ChannelMessageSend(os.Getenv("DISCORDLOC"), message)
-		checkError(err)
+		logError(err)
 	case "newPos":
 		message := setVarsToMessage(phrasePicker("conf/newPos.txt"), fakeProject, newData, oldData)
 		fmt.Println(fmt.Sprintf("\t\tSending newPos for %s, from %s to %s", newData.Login, oldData.Location, newData.Location))
 		_, err := session.ChannelMessageSend(os.Getenv("DISCORDLOC"), message)
-		checkError(err)
+		logError(err)
 	}
 }
 
@@ -51,19 +51,22 @@ func announceProject(param string, project Project, newData, oldData UserInfoPar
 		message := setVarsToMessage(phrasePicker("conf/finished.txt"), project, newData, oldData)
 		fmt.Println(fmt.Sprintf("\t\tSending finished for %s, on %s", newData.Login, project))
 		_, err := session.ChannelMessageSend(os.Getenv("DISCORDPROK"), message)
-		checkError(err)
+		logError(err)
 	case "started":
 		message := setVarsToMessage(phrasePicker("conf/started.txt"), project, newData, oldData)
 		fmt.Println(fmt.Sprintf("\t\tSending started for %s, on %s", newData.Login, project))
 		_, err := session.ChannelMessageSend(os.Getenv("DISCORDCHANNEL"), message)
-		checkError(err)
+		logError(err)
 	}
 }
 
 func messageHandler(session *discordgo.Session, message *discordgo.MessageCreate) {
 
 	botID, err := session.User("@me")
-	checkError(err)
+	if err != nil {
+		logError(err)
+		return
+	}
 
 	if botID.ID == message.Author.ID {
 		return

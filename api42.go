@@ -34,9 +34,9 @@ type UserInfo struct {
 		Level    float64 `json:"level"`
 	} `json:"cursus_users"`
 	ProjectsUsers []struct {
-		FinalMark interface{}	 `json:"final_mark"`
-		Status    string `json:"status"`
-		CursusIds []int  `json:"cursus_ids"`
+		FinalMark interface{} `json:"final_mark"`
+		Status    string      `json:"status"`
+		CursusIds []int       `json:"cursus_ids"`
 		Project   struct {
 			Name string `json:"name"`
 		} `json:"project"`
@@ -52,18 +52,21 @@ func (token *OAuthToken) getToken() error {
 
 	response, err := http.Post(req, "application/x-www-form-urlencoded", bytes.NewBuffer([]byte("")))
 	if err != nil {
+		logError(err)
 		return err
 	}
 
 	body, err := ioutil.ReadAll(response.Body)
 	if err != nil {
 		defer response.Body.Close()
+		logError(err)
 		return err
 	}
 
 	defer response.Body.Close()
 
 	err = json.Unmarshal(body, &token)
+	logError(err)
 	return err
 }
 

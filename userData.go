@@ -39,6 +39,7 @@ func compareData(fileData []byte, newUserData UserInfoParsed, session *discordgo
 
 	err := json.Unmarshal(fileData, &fileDataJson)
 	if err != nil {
+		logError(err)
 		return err
 	}
 
@@ -80,6 +81,7 @@ func checkUserFile(user string, userData UserInfoParsed, session *discordgo.Sess
 
 		file, err := os.Create(path)
 		if err != nil {
+			logError(err)
 			return err
 		}
 		defer file.Close()
@@ -88,21 +90,25 @@ func checkUserFile(user string, userData UserInfoParsed, session *discordgo.Sess
 	} else {
 		fileData, err := ioutil.ReadFile(path)
 		if err != nil {
+			logError(err)
 			return err
 		}
 		err = compareData(fileData, userData, session)
 		if err != nil {
+			logError(err)
 			return err
 		}
 	}
 
 	jsonData, err := json.MarshalIndent(userData, "", "\t")
 	if err != nil {
+		logError(err)
 		return err
 	}
 
 	err = ioutil.WriteFile(path, jsonData, 0644)
 	if err != nil {
+		logError(err)
 		return err
 	}
 	fmt.Println("\tData written to file")
@@ -120,10 +126,12 @@ func staticDataToDB(user string) {
 
 	fileData, err := ioutil.ReadFile(fmt.Sprintf("./data/targets/%s.json", user))
 	if err != nil {
+		logError(err)
 		return
 	}
 	err = json.Unmarshal(fileData, &userData)
 	if err != nil {
+		logError(err)
 		return
 	}
 
@@ -131,7 +139,10 @@ func staticDataToDB(user string) {
 		os.Getenv("DBHOST"),
 		os.Getenv("DBUSER"),
 		os.Getenv("DBPASSWORD")))
-	checkError(err)
+	if err != nil {
+		logError(err)
+		return
+	}
 
 	db.AutoMigrate(&User{})
 	db.Find(&queryUser, "login = ?", user)
@@ -163,10 +174,12 @@ func userDataToDB(user string) {
 
 	fileData, err := ioutil.ReadFile(fmt.Sprintf("./data/targets/%s.json", user))
 	if err != nil {
+		logError(err)
 		return
 	}
 	err = json.Unmarshal(fileData, &userData)
 	if err != nil {
+		logError(err)
 		return
 	}
 
@@ -180,8 +193,10 @@ func userDataToDB(user string) {
 		os.Getenv("DBHOST"),
 		os.Getenv("DBUSER"),
 		os.Getenv("DBPASSWORD")))
-	checkError(err)
-
+	if err != nil {
+		logError(err)
+		return
+	}
 	db.AutoMigrate(&OverTimeData{})
 	db.Create(&OverTimeData{
 		Login:           queryUser.Login,
