@@ -22,6 +22,13 @@ func setVarsToMessage(phrase string, project Project, newData, oldData UserInfoP
 	return phrase
 }
 
+func announceIsAccepted(login string, session *discordgo.Session) {
+	message := fmt.Sprintf("%s Est pris a 42 !")
+	fmt.Println(fmt.Sprintf("\t\tSending login for %s, on %s", login))
+	_, err := session.ChannelMessageSend(os.Getenv("DISCORDCHANNEL"), message)
+	logError(err)
+}
+
 func announceLocation(param string, newData, oldData UserInfoParsed, session *discordgo.Session) {
 	fakeProject := Project{}
 
