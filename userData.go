@@ -54,6 +54,10 @@ func compareData(fileData []byte, newUserData UserInfoParsed, session *discordgo
 		}
 	}
 
+	if fileDataJson.IsIn != newUserData.IsIn && newUserData.IsIn == true {
+		announceIsAccepted(newUserData.Login, session)
+	}
+
 	for project, oldProjectData := range fileDataJson.Projects {
 		if _, exists := newUserData.Projects[project]; !exists {
 			newUserData.Projects[project] = oldProjectData

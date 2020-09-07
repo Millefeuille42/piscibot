@@ -16,6 +16,7 @@ type UserInfoParsed struct {
 	CorrectionPoint int
 	Level           float64
 	Projects        map[string]Project
+	IsIn            bool
 }
 
 func processUserInfo(userData UserInfo) (UserInfoParsed, error) {
@@ -23,6 +24,7 @@ func processUserInfo(userData UserInfo) (UserInfoParsed, error) {
 	project := Project{}
 	userDataParsed := UserInfoParsed{}
 
+	userDataParsed.IsIn = false
 	userDataParsed.Login = userData.Login
 	userDataParsed.Email = userData.Email
 	userDataParsed.CorrectionPoint = userData.CorrectionPoint
@@ -34,6 +36,9 @@ func processUserInfo(userData UserInfo) (UserInfoParsed, error) {
 
 	for _, cursus := range userData.CursusUsers {
 		userDataParsed.Level = cursus.Level
+		if cursus.CursusID == 21 {
+			userDataParsed.IsIn = true
+		}
 	}
 
 	userDataParsed.Projects = make(map[string]Project)
