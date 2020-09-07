@@ -1,7 +1,6 @@
 package main
 
 import (
-	"bufio"
 	"encoding/json"
 	"fmt"
 	"github.com/bwmarrin/discordgo"
@@ -103,14 +102,9 @@ func getPisciList() ([]string, error) {
 	UserRegistration := userRegistrationFile{}
 	var userList []string
 
-	file, err := os.Open("./data/registrations/userlist.txt")
-	if err != nil {
-		return nil, err
-	}
-	scanner := bufio.NewScanner(file)
-	scanner.Split(bufio.ScanLines)
-	for scanner.Scan() {
-		fileData, err := ioutil.ReadFile(fmt.Sprintf("./data/registrations/%s.json", scanner.Text()))
+	lines, _ := parseFileToLines("./data/registrations/userlist.txt")
+	for _, line := range lines {
+		fileData, err := ioutil.ReadFile(fmt.Sprintf("./data/registrations/%s.json", line))
 		if err != nil {
 			return nil, err
 		}
@@ -120,7 +114,6 @@ func getPisciList() ([]string, error) {
 		}
 		userList = append(userList, UserRegistration.Pisci)
 	}
-	_ = file.Close()
 	return userList, nil
 }
 
@@ -128,14 +121,9 @@ func getPisciMap() (map[string]string, error) {
 	UserRegistration := userRegistrationFile{}
 	userMap := make(map[string]string)
 
-	file, err := os.Open("./data/registrations/userlist.txt")
-	if err != nil {
-		return nil, err
-	}
-	scanner := bufio.NewScanner(file)
-	scanner.Split(bufio.ScanLines)
-	for scanner.Scan() {
-		fileData, err := ioutil.ReadFile(fmt.Sprintf("./data/registrations/%s.json", scanner.Text()))
+	lines, _ := parseFileToLines("./data/registrations/userlist.txt")
+	for _, line := range lines {
+		fileData, err := ioutil.ReadFile(fmt.Sprintf("./data/registrations/%s.json", line))
 		if err != nil {
 			return nil, err
 		}
@@ -145,7 +133,6 @@ func getPisciMap() (map[string]string, error) {
 		}
 		userMap[UserRegistration.Pisci] = UserRegistration.Login
 	}
-	_ = file.Close()
 	return userMap, nil
 }
 
