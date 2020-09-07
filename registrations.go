@@ -104,6 +104,9 @@ func getPisciList() ([]string, error) {
 
 	lines, _ := parseFileToLines("./data/registrations/userlist.txt")
 	for _, line := range lines {
+		if line == "" {
+			continue
+		}
 		fileData, err := ioutil.ReadFile(fmt.Sprintf("./data/registrations/%s.json", line))
 		if err != nil {
 			return nil, err
@@ -123,6 +126,9 @@ func getPisciMap() (map[string]string, error) {
 
 	lines, _ := parseFileToLines("./data/registrations/userlist.txt")
 	for _, line := range lines {
+		if line == "" {
+			continue
+		}
 		fileData, err := ioutil.ReadFile(fmt.Sprintf("./data/registrations/%s.json", line))
 		if err != nil {
 			return nil, err
