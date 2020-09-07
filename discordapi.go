@@ -132,4 +132,8 @@ func messageHandler(session *discordgo.Session, message *discordgo.MessageCreate
 			_ = registerUser(session, message, args)
 		}
 	}
+
+	if strings.HasPrefix(message.Content, "!accepted") {
+		sayAccepted(session, message)
+	}
 }

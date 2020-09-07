@@ -334,3 +334,30 @@ func sayHelp(session *discordgo.Session, message *discordgo.MessageCreate) {
 	helpMessage := fmt.Sprintf("<@%s>`Read The Fucking Pin`", message.Author.ID)
 	_, _ = session.ChannelMessageSend(message.ChannelID, helpMessage)
 }
+
+func sayAccepted(session *discordgo.Session, message *discordgo.MessageCreate) {
+
+	users, _ := getPisciList()
+	accMessage := ""
+
+	for _, user := range users {
+		userDataParsed := UserInfoParsed{}
+		fileData, err := ioutil.ReadFile(fmt.Sprintf("./data/targets/%s.json", user))
+		if err != nil {
+			continue
+		}
+		err = json.Unmarshal(fileData, &userDataParsed)
+		if err != nil {
+			continue
+		}
+		if userDataParsed.IsIn {
+			accMessage = fmt.Sprintf("%s\n%-15s Accepted", accMessage, user)
+		}
+	}
+	if accMessage == "" {
+		accMessage = "Personne n'est pris"
+	} else {
+		accMessage = fmt.Sprintf("<@%s>```%s ```", message.Author.ID, accMessage)
+	}
+	_, _ = session.ChannelMessageSend(message.ChannelID, accMessage)
+}
