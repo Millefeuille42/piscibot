@@ -249,7 +249,7 @@ func leaderboard(session *discordgo.Session, message *discordgo.MessageCreate) {
 		return userPair[i].level > userPair[j].level
 	})
 
-	for i, user := range userPair[:len(userList)-1] {
+	for i, user := range userPair[:len(userList)] {
 		leadMessage = fmt.Sprintf("%s\n%2d: %-15s%.2f", leadMessage, i+1, user.name, user.level)
 	}
 
