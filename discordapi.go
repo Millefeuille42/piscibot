@@ -79,61 +79,48 @@ func messageHandler(session *discordgo.Session, message *discordgo.MessageCreate
 		return
 	}
 
-	if message.Content == "!leaderboard" {
+	switch message.Content {
+	case "!leaderboard":
 		leaderboard(session, message)
-	}
-
-	if strings.HasPrefix(message.Content, "!roadmap") {
-		arg := strings.Split(message.Content, "-")
-		if len(arg) > 1 {
-			roadmap(session, message, arg[1])
-		} else {
-			roadmap(session, message, "in_progress")
-		}
-	}
-
-	if strings.HasPrefix(message.Content, "!template") {
-		arg := strings.Split(message.Content, "-")
-		if len(arg) > 1 {
-			template(session, message, arg[1])
-		} else {
-			template(session, message, "bin")
-		}
-	}
-
-	if strings.HasPrefix(message.Content, "!user") {
-		arg := strings.Split(message.Content, " ")
-		sendUser(session, message, arg)
-	}
-
-	if strings.HasPrefix(message.Content, "!info") {
-		arg := strings.Split(message.Content, " ")
-		sendInfo(session, message, arg)
-	}
-
-	if strings.HasPrefix(message.Content, "!help") {
+	case "!help":
 		sayHelp(session, message)
-	}
-
-	if strings.HasPrefix(message.Content, "!project") {
-		arg := strings.Split(message.Content, "-")
-		if len(arg) > 1 {
-			sayProject(session, message, arg[1])
-		}
-	}
-
-	if strings.HasPrefix(message.Content, "!location") {
-		sayLocation(session, message)
-	}
-
-	if strings.HasPrefix(message.Content, "!register") {
-		args := strings.Split(message.Content, "|")
-		if len(args) == 4 {
-			_ = registerUser(session, message, args)
-		}
-	}
-
-	if strings.HasPrefix(message.Content, "!accepted") {
+	case "!whoIsStud":
 		sayAccepted(session, message)
+	case "!location":
+		sayLocation(session, message)
+	case "!haveAHumongousApparatus":
+		haveAHumongousApparatus(session, message)
+
+	default:
+		switch {
+		case strings.HasPrefix(message.Content, "!roadmap"):
+			arg := strings.Split(message.Content, "-")
+			if len(arg) > 1 {
+				roadmap(session, message, arg[1])
+			} else {
+				roadmap(session, message, "in_progress")
+			}
+
+		case strings.HasPrefix(message.Content, "!project"):
+			arg := strings.Split(message.Content, "-")
+			if len(arg) > 1 {
+				sayProject(session, message, arg[1])
+			}
+		case strings.HasPrefix(message.Content, "!register"):
+			args := strings.Split(message.Content, "|")
+			if len(args) == 4 {
+				_ = registerUser(session, message, args)
+			}
+
+		case strings.HasPrefix(message.Content, "!user"):
+			arg := strings.Split(message.Content, " ")
+			sendUser(session, message, arg)
+		case strings.HasPrefix(message.Content, "!isStud"):
+			arg := strings.Split(message.Content, " ")
+			isUserAccepted(session, message, arg)
+		case strings.HasPrefix(message.Content, "!info"):
+			arg := strings.Split(message.Content, " ")
+			sendInfo(session, message, arg)
+		}
 	}
 }

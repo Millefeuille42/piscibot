@@ -1,12 +1,10 @@
 package main
 
 import (
-	"bytes"
 	"encoding/json"
 	"fmt"
 	"github.com/bwmarrin/discordgo"
 	"io/ioutil"
-	"log"
 	"regexp"
 	"sort"
 	"strconv"
@@ -108,22 +106,6 @@ func sendUser(session *discordgo.Session, message *discordgo.MessageCreate, arg 
 		)
 		_, _ = session.ChannelMessageSend(message.ChannelID, userMessage)
 	}
-}
-
-func template(session *discordgo.Session, message *discordgo.MessageCreate, object string) {
-
-	if !Find([]string{"lib", "bin"}, object) {
-		return
-	}
-
-	file, err := ioutil.ReadFile(fmt.Sprintf("data/templates/%s", object))
-	if err != nil {
-		log.Print(err)
-		return
-	}
-
-	_, err = session.ChannelFileSend(message.ChannelID, "Makefile_"+object, bytes.NewReader(file))
-	logError(err)
 }
 
 func roadmapInP(session *discordgo.Session, message *discordgo.MessageCreate, status string) {
@@ -360,4 +342,36 @@ func sayAccepted(session *discordgo.Session, message *discordgo.MessageCreate) {
 		accMessage = fmt.Sprintf("<@%s>```%s ```", message.Author.ID, accMessage)
 	}
 	_, _ = session.ChannelMessageSend(message.ChannelID, accMessage)
+}
+
+func haveAHumongousApparatus(session *discordgo.Session, message *discordgo.MessageCreate) {
+	_, _ = session.ChannelMessageSend(message.ChannelID, "Oui")
+}
+
+func isUserAccepted(session *discordgo.Session, message *discordgo.MessageCreate, arg []string) {
+	api := Api42{}
+
+	err := api.Token.getToken()
+	logError(err)
+
+	for _, user := range arg[1:] {
+		userData := UserInfo{}
+		isAccepted := false
+
+		userData, api.Token, err = getUserInfo(user, api.Token, userData)
+		if err != nil {
+			logError(err)
+			return
+		}
+		for _, cursus := range userData.CursusUsers {
+			if cursus.CursusID == 21 {
+				isAccepted = true
+			}
+		}
+		if isAccepted {
+			_, _ = session.ChannelMessageSend(message.ChannelID, fmt.Sprintf("%s est un student", user))
+		} else {
+			_, _ = session.ChannelMessageSend(message.ChannelID, fmt.Sprintf("%s n'est pas un student", user))
+		}
+	}
 }
