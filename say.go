@@ -358,6 +358,7 @@ func isUserAccepted(session *discordgo.Session, message *discordgo.MessageCreate
 		userData := UserInfo{}
 		isAccepted := false
 
+		user = strings.ToLower(user)
 		userData, api.Token, err = getUserInfo(user, api.Token, userData)
 		if err != nil {
 			logError(err)
