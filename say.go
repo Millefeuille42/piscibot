@@ -210,6 +210,13 @@ func roadmap(session *discordgo.Session, message *discordgo.MessageCreate, statu
 }
 
 func leaderboard(session *discordgo.Session, message *discordgo.MessageCreate) {
+	_, err := session.ChannelMessageSend(message.ChannelID, fmt.Sprintf("<@%s>%s", message.Author.ID, sLeaderboard()))
+	if err != nil {
+		return
+	}
+}
+
+func sLeaderboard() string {
 	var leadMessage = ""
 	userList, _ := getPisciList()
 	userPair := make([]levelNamePair, 0)
@@ -235,11 +242,8 @@ func leaderboard(session *discordgo.Session, message *discordgo.MessageCreate) {
 		leadMessage = fmt.Sprintf("%s\n%2d: %-15s%.2f", leadMessage, i+1, user.name, user.level)
 	}
 
-	leadMessage = fmt.Sprintf("<@%s>```%s```", message.Author.ID, leadMessage)
-	_, err := session.ChannelMessageSend(message.ChannelID, leadMessage)
-	if err != nil {
-		return
-	}
+	leadMessage = fmt.Sprintf("```%s```", leadMessage)
+	return leadMessage
 }
 
 func sayProject(session *discordgo.Session, message *discordgo.MessageCreate, project string) {

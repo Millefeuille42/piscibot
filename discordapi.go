@@ -59,6 +59,8 @@ func announceProject(param string, project Project, newData, oldData UserInfoPar
 		fmt.Println(fmt.Sprintf("\t\tSending finished for %s, on %s", newData.Login, project))
 		_, err := session.ChannelMessageSend(os.Getenv("DISCORDPROK"), message)
 		logError(err)
+		_, err = session.ChannelMessageSend(os.Getenv("DISCORDLEADERBOARD"), sLeaderboard())
+		logError(err)
 	case "started":
 		message := setVarsToMessage(phrasePicker("conf/started.txt"), project, newData, oldData)
 		fmt.Println(fmt.Sprintf("\t\tSending started for %s, on %s", newData.Login, project))
@@ -90,6 +92,10 @@ func messageHandler(session *discordgo.Session, message *discordgo.MessageCreate
 		sayLocation(session, message)
 	case "!haveAHumongousApparatus":
 		haveAHumongousApparatus(session, message)
+	case "!unregister":
+		everyoneUnregister(session, message)
+	case "!spectator":
+		everyoneSpectator(session, message)
 
 	default:
 		switch {
